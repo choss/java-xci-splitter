@@ -53,7 +53,7 @@ public class XciFileInformation {
 
 	}
 
-	public long getFullFileSize() {
+	public long getFullFileSizeInBytes() {
 		long result = 0;
 		for (Pair<String, Long> pair : physicalFileSizes) {
 			result += pair.getRight().longValue();
@@ -61,11 +61,6 @@ public class XciFileInformation {
 		return result;
 	}
 
-	@Override
-	public String toString() {
-		return "XciFileInformation [physicalFileSizes=" + physicalFileSizes + ", headerInformation=" + headerInformation + ", getFullFileSize()="
-				+ getFullFileSize() + ", isSplit()=" + isSplit() + "]";
-	}
 
 	public boolean isSplit() {
 		return physicalFileSizes.size() > 1;
@@ -75,12 +70,18 @@ public class XciFileInformation {
 		return physicalFileSizes.stream().map(p -> p.getLeft()).collect(Collectors.toList());
 	}
 
-	public long getDataSize() {
+	public long getDataSizeInBytes() {
 		return headerInformation.getDataFileSizeInBytes().longValue();
 	}
 
-	public long getCartSize() {
+	public long getCartSizeInBytes() {
 		return headerInformation.getGamecardSize().getCartSizeInBytes();
+	}
+
+	@Override
+	public String toString() {
+		return "XciFileInformation [physicalFileSizes=" + physicalFileSizes + ", headerInformation=" + headerInformation + ", getFullFileSizeInBytes()="
+				+ getFullFileSizeInBytes() + ", isSplit()=" + isSplit() + "]";
 	}
 
 }

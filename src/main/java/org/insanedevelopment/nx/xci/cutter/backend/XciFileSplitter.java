@@ -20,7 +20,7 @@ public class XciFileSplitter {
 	}
 
 	private static void splitAndTrimFile(XciFileInformation source, String firstTarget, long chunkSize) throws IOException {
-		if (source.isSplit()) {
+		if (source.isSplit() || source.getCartSizeInBytes() == 0) {
 			return;
 		}
 
@@ -28,11 +28,11 @@ public class XciFileSplitter {
 		if (!checkPadding(source)) {
 			return;
 		}
-		PercentageCalculatingInputStreamObserver observer = new PercentageCalculatingInputStreamObserver(source.getDataSize());
+		PercentageCalculatingInputStreamObserver observer = new PercentageCalculatingInputStreamObserver(source.getDataSizeInBytes());
 		try (ObservableInputStream inputStream = new ObservableInputStream(FileUtils.openInputStream(new File(source.getMainFileName())))) {
 			inputStream.add(observer);
 
-			long remainingDataSize = source.getDataSize();
+			long remainingDataSize = source.getDataSizeInBytes();
 			int counter = 0;
 			long lastCopyCount = 0;
 			long amountToCopy = Math.min(remainingDataSize, chunkSize);
@@ -52,11 +52,11 @@ public class XciFileSplitter {
 	}
 
 	private static boolean checkPadding(XciFileInformation source) throws IOException {
-		PercentageCalculatingInputStreamObserver observer = new PercentageCalculatingInputStreamObserver(source.getCartSize() - source.getDataSize());
+		PercentageCalculatingInputStreamObserver observer = new PercentageCalculatingInputStreamObserver(source.getCartSizeInBytes() - source.getDataSizeInBytes());
 
 		try (ObservableInputStream inputStream = new ObservableInputStream(IOUtils.buffer(FileUtils.openInputStream(new File(source.getMainFileName()))))) {
 			inputStream.add(observer);
-			inputStream.skip(source.getDataSize());
+			inputStream.skip(source.getDataSizeInBytes());
 			int readBytes;
 			byte[] buffer = new byte[4 * 1024];
 			while (IOUtils.EOF != (readBytes = inputStream.read(buffer))) {

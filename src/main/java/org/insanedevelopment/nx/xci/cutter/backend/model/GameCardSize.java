@@ -1,7 +1,7 @@
 package org.insanedevelopment.nx.xci.cutter.backend.model;
 
 public enum GameCardSize {
-	_1GB(0xFA, 1), _2GB(0xF8, 2), _4GB(0xF0, 4), _8GB(0xE0, 8), _16GB(0xE1, 16), _32GB(0xE2, 32);
+	_1GB(0xFA, 1), _2GB(0xF8, 2), _4GB(0xF0, 4), _8GB(0xE0, 8), _16GB(0xE1, 16), _32GB(0xE2, 32), UNKNOWN(0x00, 0);
 
 	private int magicNumber;
 	private long cartSizeInBytes;
@@ -18,7 +18,7 @@ public enum GameCardSize {
 				return size;
 			}
 		}
-		return null;
+		return GameCardSize.UNKNOWN;
 	}
 
 	public long getCartSizeInBytes() {

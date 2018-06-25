@@ -8,6 +8,8 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public class XciHeaderInformation {
 
+	private static XciHeaderInformation EMPTY;
+
 	private Integer gamecardHeaderVersion;
 	private GameCardSize gamecardSize;
 	private BigInteger dataFileSizeInBytes;
@@ -44,8 +46,7 @@ public class XciHeaderInformation {
 		byte[] lastValidAddress = new byte[8];
 		inputFile.readFully(lastValidAddress);
 		ArrayUtils.reverse(lastValidAddress);
-		result.dataFileSizeInBytes = new BigInteger(1, lastValidAddress).add(BigInteger.ONE)
-				.multiply(BigInteger.valueOf(0x200));
+		result.dataFileSizeInBytes = new BigInteger(1, lastValidAddress).add(BigInteger.ONE).multiply(BigInteger.valueOf(0x200));
 
 		inputFile.seek(0x10D);
 		result.gamecardSize = GameCardSize.fromMagicByte(inputFile.readByte());
@@ -59,14 +60,14 @@ public class XciHeaderInformation {
 			XciHeaderInformation result = readFromStream(inputFile);
 			return result;
 		} catch (IOException e) {
-			return null;
+			return XciHeaderInformation.EMPTY;
 		}
 	}
 
 	@Override
 	public String toString() {
-		return "XciHeader [gamecardHeaderVersion=" + gamecardHeaderVersion + ", gamecardSize=" + gamecardSize
-				+ ", dataFileSizeInBytes=" + dataFileSizeInBytes + "]";
+		return "XciHeader [gamecardHeaderVersion=" + gamecardHeaderVersion + ", gamecardSize=" + gamecardSize + ", dataFileSizeInBytes=" + dataFileSizeInBytes
+				+ "]";
 	}
 
 	public Integer getGamecardHeaderVersion() {
@@ -79,6 +80,13 @@ public class XciHeaderInformation {
 
 	public BigInteger getDataFileSizeInBytes() {
 		return dataFileSizeInBytes;
+	}
+
+	static {
+		EMPTY = new XciHeaderInformation();
+		EMPTY.dataFileSizeInBytes = BigInteger.ZERO;
+		EMPTY.gamecardHeaderVersion = Integer.valueOf(-1);
+		EMPTY.gamecardSize = GameCardSize.UNKNOWN;
 	}
 
 }
