@@ -30,7 +30,8 @@ public class ProgressBarUpdater implements WorkflowStepPercentageObserver {
 		if (step == null) {
 			step = WorkflowStep.UNKNOWN;
 		}
-		setButtonState(step == WorkflowStep.DONE);
+		boolean isDone = step == WorkflowStep.DONE;
+		Display.getDefault().asyncExec(() -> setButtonState(isDone));
 		final String workflowStepString = step.getDisplayString();
 		Display.getDefault().asyncExec(() -> lblWorkflowStep.setText(workflowStepString));
 	}
