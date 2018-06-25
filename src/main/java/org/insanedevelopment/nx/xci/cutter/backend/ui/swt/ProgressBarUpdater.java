@@ -12,6 +12,7 @@ public class ProgressBarUpdater implements WorkflowStepPercentageObserver {
 	private Label lblWorkflowStep;
 	private ProgressBar progressBarWorkflowProgress;
 	private Button[] buttons;
+	private int oldPercentage = 0;
 
 	public ProgressBarUpdater(Label lblWorkflowStep, ProgressBar progressBarWorkflowProgress, Button... buttons) {
 		this.lblWorkflowStep = lblWorkflowStep;
@@ -22,7 +23,10 @@ public class ProgressBarUpdater implements WorkflowStepPercentageObserver {
 	@Override
 	public void updatePercentage(double percentage, long readSize, long totalSize) {
 		final int percentageInt = (int) percentage;
-		Display.getDefault().asyncExec(() -> progressBarWorkflowProgress.setSelection(percentageInt));
+		if (oldPercentage != percentageInt) {
+			oldPercentage = percentageInt;
+			Display.getDefault().asyncExec(() -> progressBarWorkflowProgress.setSelection(percentageInt));
+		}
 	}
 
 	@Override

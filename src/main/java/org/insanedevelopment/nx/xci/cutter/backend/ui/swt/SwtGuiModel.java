@@ -3,6 +3,7 @@ package org.insanedevelopment.nx.xci.cutter.backend.ui.swt;
 import java.math.BigInteger;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -13,7 +14,13 @@ import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
 
 public class SwtGuiModel {
 
-	private ExecutorService executor = Executors.newFixedThreadPool(1);
+	private ExecutorService executor = Executors.newFixedThreadPool(1,  new ThreadFactory() {
+        public Thread newThread(Runnable r) {
+            Thread t = Executors.defaultThreadFactory().newThread(r);
+            t.setDaemon(true);
+            return t;
+        }
+    });
 
 	private XciFileInformation xciFileInformation;
 	private String sourceFile;
