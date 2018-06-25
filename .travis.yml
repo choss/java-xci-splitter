@@ -1,0 +1,12 @@
+language: java
+script: mvn package
+notifications:
+  email: never
+deploy:
+  provider: releases
+  api_key:
+    secure: $GITHUB_TOKEN
+  file: "./target/xci-splitter-0.0.1-SNAPSHOT-win64.jar"
+  skip_cleanup: true
+  on:
+    tags: true
