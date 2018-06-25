@@ -5,9 +5,6 @@ import java.math.BigInteger;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jface.internal.databinding.provisional.swt.SWTUtil;
-import org.insanedevelopment.nx.xci.cutter.backend.XciFileMerger;
-import org.insanedevelopment.nx.xci.cutter.backend.XciFileSplitter;
 import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
 
 public class SwtGuiModel {
