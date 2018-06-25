@@ -12,15 +12,15 @@ import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
 
 public class XciFileMerger {
 
-	public static void mergeSplitFiles(XciFileInformation source, String target) throws IOException {
+	public static void mergeSplitFiles(XciFileInformation source, String target, WorkflowStepPercentagObserver calleeObserver) throws IOException {
 		if (!source.isSplit() || source.getCartSizeInBytes() == 0) {
 			return;
 		}
 		File targetFile = new File(target);
 		FileUtils.forceMkdirParent(targetFile);
 		try (OutputStream outputStream = IOUtils.buffer(FileUtils.openOutputStream(targetFile))) {
-
-			PercentageCalculatingInputStreamObserver observer = new PercentageCalculatingInputStreamObserver(source.getFullFileSizeInBytes());
+			calleeObserver.setWorkflowStep(WorkflowStep.MERGING);
+			PercentageCalculatingInputStreamObserver observer = new PercentageCalculatingInputStreamObserver(source.getFullFileSizeInBytes(), calleeObserver);
 
 			for (String fileName : source.getAllFileNames()) {
 				try (ObservableInputStream inputStream = new ObservableInputStream(FileUtils.openInputStream(new File(fileName)))) {
@@ -29,6 +29,7 @@ public class XciFileMerger {
 				}
 			}
 
+			calleeObserver.setWorkflowStep(WorkflowStep.PADDING);
 			for (long i = source.getDataSizeInBytes(); i < source.getCartSizeInBytes(); i++) {
 				outputStream.write(0xFF);
 			}

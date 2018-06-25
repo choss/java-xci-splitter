@@ -15,20 +15,22 @@ public class XciFileSplitter {
 
 	private static long SPLIT_FILE_SIZE_4GB = 4_294_934_528L;
 
-	public static void splitAndTrimFile(XciFileInformation source, String firstTarget) throws IOException {
-		splitAndTrimFile(source, firstTarget, SPLIT_FILE_SIZE_4GB);
+	public static void splitAndTrimFile(XciFileInformation source, String firstTarget, WorkflowStepPercentagObserver calleeObserver) throws IOException {
+		splitAndTrimFile(source, firstTarget, SPLIT_FILE_SIZE_4GB, calleeObserver);
 	}
 
-	private static void splitAndTrimFile(XciFileInformation source, String firstTarget, long chunkSize) throws IOException {
+	private static void splitAndTrimFile(XciFileInformation source, String firstTarget, long chunkSize, WorkflowStepPercentagObserver calleeObserver) throws IOException {
 		if (source.isSplit() || source.getCartSizeInBytes() == 0) {
 			return;
 		}
 
-		String baseOutputFileName = FilenameUtils.getFullPath(firstTarget) + FilenameUtils.getBaseName(firstTarget);
-		if (!checkPadding(source)) {
+		if (!checkPadding(source, calleeObserver)) {
 			return;
 		}
-		PercentageCalculatingInputStreamObserver observer = new PercentageCalculatingInputStreamObserver(source.getDataSizeInBytes());
+
+		calleeObserver.setWorkflowStep(WorkflowStep.TRIMMING_AND_SPLITTING);
+		String baseOutputFileName = FilenameUtils.getFullPath(firstTarget) + FilenameUtils.getBaseName(firstTarget);
+		PercentageCalculatingInputStreamObserver observer = new PercentageCalculatingInputStreamObserver(source.getDataSizeInBytes(), calleeObserver);
 		try (ObservableInputStream inputStream = new ObservableInputStream(FileUtils.openInputStream(new File(source.getMainFileName())))) {
 			inputStream.add(observer);
 
@@ -51,8 +53,9 @@ public class XciFileSplitter {
 		}
 	}
 
-	private static boolean checkPadding(XciFileInformation source) throws IOException {
-		PercentageCalculatingInputStreamObserver observer = new PercentageCalculatingInputStreamObserver(source.getCartSizeInBytes() - source.getDataSizeInBytes());
+	private static boolean checkPadding(XciFileInformation source, WorkflowStepPercentagObserver calleeObserver) throws IOException {
+		calleeObserver.setWorkflowStep(WorkflowStep.CHECK_PADDING);
+		PercentageCalculatingInputStreamObserver observer = new PercentageCalculatingInputStreamObserver(source.getCartSizeInBytes() - source.getDataSizeInBytes(), calleeObserver);
 
 		try (ObservableInputStream inputStream = new ObservableInputStream(IOUtils.buffer(FileUtils.openInputStream(new File(source.getMainFileName()))))) {
 			inputStream.add(observer);

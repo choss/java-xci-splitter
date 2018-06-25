@@ -2,14 +2,17 @@ package org.apache.commons.io.input;
 
 import java.io.IOException;
 
+import org.insanedevelopment.nx.xci.cutter.backend.WorkflowStepPercentagObserver;
+
 public class PercentageCalculatingInputStreamObserver extends ObservableInputStream.Observer {
 
 	private final long totalSize;
 	private long readSize;
+	private WorkflowStepPercentagObserver observer;
 
-	public PercentageCalculatingInputStreamObserver(long totalSize) {
+	public PercentageCalculatingInputStreamObserver(long totalSize, WorkflowStepPercentagObserver observer) {
 		this.totalSize = totalSize;
-		System.out.println("---");
+		this.observer = observer;
 	}
 
 	@Override
@@ -26,7 +29,7 @@ public class PercentageCalculatingInputStreamObserver extends ObservableInputStr
 
 	private void updatePercentage() {
 		double percentageRead = (double)  readSize / (double) totalSize * 100.0d;
-		System.out.print(percentageRead + "% " + readSize + " of " + totalSize + "\r");
+		observer.updatePercentage(percentageRead, readSize, totalSize);
 	}
 
 	
