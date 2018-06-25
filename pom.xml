@@ -5,7 +5,7 @@
 
 	<groupId>org.insanedevelopment.nx.xci</groupId>
 	<artifactId>xci-splitter</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>xci-splitter</name>
