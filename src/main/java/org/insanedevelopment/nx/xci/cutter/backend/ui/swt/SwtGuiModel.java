@@ -1,13 +1,19 @@
 package org.insanedevelopment.nx.xci.cutter.backend.ui.swt;
 
 import java.math.BigInteger;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.insanedevelopment.nx.xci.cutter.backend.XciFileMerger;
+import org.insanedevelopment.nx.xci.cutter.backend.XciFileSplitter;
 import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
 
 public class SwtGuiModel {
+
+	private ExecutorService executor = Executors.newFixedThreadPool(1);
 
 	private XciFileInformation xciFileInformation;
 	private String sourceFile;
@@ -81,13 +87,13 @@ public class SwtGuiModel {
 		String result = FilenameUtils.getFullPath(sourceFile) + FilenameUtils.getBaseName(sourceFile) + "-output.xc0";
 		return result;
 	}
-	
-	public void splitAndTrim() {
-//		XciFileSplitter.splitAndTrimFile(xciFileInformation, targetFile);
+
+	public void splitAndTrim(ProgressBarUpdater progressBarUpdater) {
+		executor.submit(() -> XciFileSplitter.splitAndTrimFile(xciFileInformation, targetFile, progressBarUpdater));
 	}
-	
-	public void merge() {
-//		XciFileMerger.mergeSplitFiles(xciFileInformation, targetFile);
+
+	public void merge(ProgressBarUpdater progressBarUpdater) {
+		executor.submit(() -> XciFileMerger.mergeSplitFiles(xciFileInformation, targetFile, progressBarUpdater));
 	}
-	
+
 }

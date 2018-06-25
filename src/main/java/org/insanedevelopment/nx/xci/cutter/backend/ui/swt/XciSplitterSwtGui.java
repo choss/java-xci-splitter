@@ -22,15 +22,18 @@ public class XciSplitterSwtGui {
 	private Text dataSize;
 	private Text targetFile;
 	private Text xciSize;
-	private Label lblNewLabel_1;
-	private Label lblNewLabel_2;
+	private Label lblSplit;
+	private Label lblParts;
 	private Text isSplit;
 	private Text parts;
-	private Button btnNewButton;
-	private Button btnNewButton_1;
+	private Button btnTrim;
+	private Button btnSplitAndTrim;
 	private Menu menu_1;
 	private MenuItem mntmExit;
 	private MenuItem mntmBatchProcessing;
+	private Label lblWorkflowStep;
+	private ProgressBar progressBarWorkflowProgress;
+	private Button btnMerge;
 
 	/**
 	 * Launch the application.
@@ -130,17 +133,17 @@ public class XciSplitterSwtGui {
 		xciSize.setEditable(false);
 		xciSize.setBounds(71, 209, 76, 21);
 
-		Label lblNewLabel = new Label(shlXciSplitter, SWT.NONE);
-		lblNewLabel.setBounds(10, 212, 55, 15);
-		lblNewLabel.setText("XCI Size");
+		Label lblXciSize = new Label(shlXciSplitter, SWT.NONE);
+		lblXciSize.setBounds(10, 212, 55, 15);
+		lblXciSize.setText("XCI Size");
 
-		lblNewLabel_1 = new Label(shlXciSplitter, SWT.NONE);
-		lblNewLabel_1.setBounds(167, 158, 39, 15);
-		lblNewLabel_1.setText("is Split?");
+		lblSplit = new Label(shlXciSplitter, SWT.NONE);
+		lblSplit.setBounds(167, 158, 39, 15);
+		lblSplit.setText("is Split?");
 
-		lblNewLabel_2 = new Label(shlXciSplitter, SWT.NONE);
-		lblNewLabel_2.setBounds(167, 185, 39, 15);
-		lblNewLabel_2.setText("Parts");
+		lblParts = new Label(shlXciSplitter, SWT.NONE);
+		lblParts.setBounds(167, 185, 39, 15);
+		lblParts.setText("Parts");
 
 		isSplit = new Text(shlXciSplitter, SWT.BORDER);
 		isSplit.setEditable(false);
@@ -150,14 +153,20 @@ public class XciSplitterSwtGui {
 		parts.setEditable(false);
 		parts.setBounds(216, 185, 76, 21);
 
-		btnNewButton = new Button(shlXciSplitter, SWT.NONE);
-		btnNewButton.setEnabled(false);
-		btnNewButton.setBounds(329, 151, 76, 79);
-		btnNewButton.setText("Trim");
+		btnTrim = new Button(shlXciSplitter, SWT.NONE);
+		btnTrim.setEnabled(false);
+		btnTrim.setBounds(329, 151, 76, 79);
+		btnTrim.setText("Trim");
 
-		btnNewButton_1 = new Button(shlXciSplitter, SWT.NONE);
-		btnNewButton_1.setBounds(411, 151, 75, 79);
-		btnNewButton_1.setText("Split && Trim");
+		btnSplitAndTrim = new Button(shlXciSplitter, SWT.NONE);
+		btnSplitAndTrim.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				model.splitAndTrim(new ProgressBarUpdater(lblWorkflowStep, progressBarWorkflowProgress, btnSplitAndTrim, btnMerge));
+			}
+		});
+		btnSplitAndTrim.setBounds(411, 151, 75, 79);
+		btnSplitAndTrim.setText("Split && Trim");
 
 		Menu mainMenu = new Menu(shlXciSplitter, SWT.BAR);
 		shlXciSplitter.setMenuBar(mainMenu);
@@ -181,12 +190,22 @@ public class XciSplitterSwtGui {
 		});
 		mntmExit.setText("Exit");
 
-		Button btnNewButton_2 = new Button(shlXciSplitter, SWT.NONE);
-		btnNewButton_2.setBounds(492, 151, 75, 79);
-		btnNewButton_2.setText("Merge");
+		btnMerge = new Button(shlXciSplitter, SWT.NONE);
+		btnMerge.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				model.merge(new ProgressBarUpdater(lblWorkflowStep, progressBarWorkflowProgress, btnSplitAndTrim, btnMerge));
+			}
+		});
+		btnMerge.setBounds(492, 151, 75, 79);
+		btnMerge.setText("Merge");
 
-		ProgressBar progressBar = new ProgressBar(shlXciSplitter, SWT.NONE);
-		progressBar.setBounds(10, 287, 587, 17);
+		progressBarWorkflowProgress = new ProgressBar(shlXciSplitter, SWT.NONE);
+		progressBarWorkflowProgress.setBounds(10, 287, 587, 17);
+		
+		lblWorkflowStep = new Label(shlXciSplitter, SWT.NONE);
+		lblWorkflowStep.setBounds(10, 266, 587, 15);
+		lblWorkflowStep.setText("-");
 	}
 
 	private void updateInformationFields() {

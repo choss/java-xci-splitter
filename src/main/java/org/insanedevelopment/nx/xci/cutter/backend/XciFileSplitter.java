@@ -15,11 +15,17 @@ public class XciFileSplitter {
 
 	private static long SPLIT_FILE_SIZE_4GB = 4_294_934_528L;
 
-	public static void splitAndTrimFile(XciFileInformation source, String firstTarget, WorkflowStepPercentagObserver calleeObserver) throws IOException {
-		splitAndTrimFile(source, firstTarget, SPLIT_FILE_SIZE_4GB, calleeObserver);
+	public static void splitAndTrimFile(XciFileInformation source, String firstTarget, WorkflowStepPercentageObserver calleeObserver) {
+		try {
+			splitAndTrimFile(source, firstTarget, SPLIT_FILE_SIZE_4GB, calleeObserver);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 	}
 
-	private static void splitAndTrimFile(XciFileInformation source, String firstTarget, long chunkSize, WorkflowStepPercentagObserver calleeObserver) throws IOException {
+	private static void splitAndTrimFile(XciFileInformation source, String firstTarget, long chunkSize, WorkflowStepPercentageObserver calleeObserver)
+			throws IOException {
 		if (source.isSplit() || source.getCartSizeInBytes() == 0) {
 			return;
 		}
@@ -51,11 +57,13 @@ public class XciFileSplitter {
 			} while (lastCopyCount == chunkSize);
 
 		}
+		calleeObserver.setWorkflowStep(WorkflowStep.DONE);
 	}
 
-	private static boolean checkPadding(XciFileInformation source, WorkflowStepPercentagObserver calleeObserver) throws IOException {
+	private static boolean checkPadding(XciFileInformation source, WorkflowStepPercentageObserver calleeObserver) throws IOException {
 		calleeObserver.setWorkflowStep(WorkflowStep.CHECK_PADDING);
-		PercentageCalculatingInputStreamObserver observer = new PercentageCalculatingInputStreamObserver(source.getCartSizeInBytes() - source.getDataSizeInBytes(), calleeObserver);
+		PercentageCalculatingInputStreamObserver observer = new PercentageCalculatingInputStreamObserver(
+				source.getCartSizeInBytes() - source.getDataSizeInBytes(), calleeObserver);
 
 		try (ObservableInputStream inputStream = new ObservableInputStream(IOUtils.buffer(FileUtils.openInputStream(new File(source.getMainFileName()))))) {
 			inputStream.add(observer);

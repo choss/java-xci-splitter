@@ -2,15 +2,15 @@ package org.apache.commons.io.input;
 
 import java.io.IOException;
 
-import org.insanedevelopment.nx.xci.cutter.backend.WorkflowStepPercentagObserver;
+import org.insanedevelopment.nx.xci.cutter.backend.WorkflowStepPercentageObserver;
 
 public class PercentageCalculatingInputStreamObserver extends ObservableInputStream.Observer {
 
 	private final long totalSize;
 	private long readSize;
-	private WorkflowStepPercentagObserver observer;
+	private WorkflowStepPercentageObserver observer;
 
-	public PercentageCalculatingInputStreamObserver(long totalSize, WorkflowStepPercentagObserver observer) {
+	public PercentageCalculatingInputStreamObserver(long totalSize, WorkflowStepPercentageObserver observer) {
 		this.totalSize = totalSize;
 		this.observer = observer;
 	}

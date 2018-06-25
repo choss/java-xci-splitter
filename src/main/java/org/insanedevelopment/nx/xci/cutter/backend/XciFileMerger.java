@@ -12,7 +12,16 @@ import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
 
 public class XciFileMerger {
 
-	public static void mergeSplitFiles(XciFileInformation source, String target, WorkflowStepPercentagObserver calleeObserver) throws IOException {
+	public static void mergeSplitFiles(XciFileInformation source, String target, WorkflowStepPercentageObserver calleeObserver) {
+		try {
+			mergeAndSplitFilesInternal(source, target, calleeObserver);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static void mergeAndSplitFilesInternal(XciFileInformation source, String target, WorkflowStepPercentageObserver calleeObserver) throws IOException {
 		if (!source.isSplit() || source.getCartSizeInBytes() == 0) {
 			return;
 		}
@@ -34,6 +43,7 @@ public class XciFileMerger {
 				outputStream.write(0xFF);
 			}
 		}
+		calleeObserver.setWorkflowStep(WorkflowStep.DONE);
 	}
 
 }
