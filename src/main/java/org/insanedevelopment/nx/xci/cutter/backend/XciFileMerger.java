@@ -16,15 +16,15 @@ public class XciFileMerger {
 
 	public static void mergeSplitFiles(XciFileInformation source, String target, WorkflowStepPercentageObserver calleeObserver) {
 		try {
-			mergeAndSplitFilesInternal(source, target, calleeObserver);
+			mergeSplitFilesInternal(source, target, calleeObserver);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
 
-	private static void mergeAndSplitFilesInternal(XciFileInformation source, String target, WorkflowStepPercentageObserver calleeObserver) throws IOException {
-		if (!source.isSplit() || source.getCartSizeInBytes() == 0) {
+	private static void mergeSplitFilesInternal(XciFileInformation source, String target, WorkflowStepPercentageObserver calleeObserver) throws IOException {
+		if (source.getCartSizeInBytes() == 0) {
 			return;
 		}
 		File targetFile = new File(target);
