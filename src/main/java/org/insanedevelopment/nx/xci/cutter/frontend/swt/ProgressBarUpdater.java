@@ -1,4 +1,4 @@
-package org.insanedevelopment.nx.xci.cutter.backend.ui.swt;
+package org.insanedevelopment.nx.xci.cutter.frontend.swt;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;

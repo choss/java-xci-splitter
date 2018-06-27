@@ -1,4 +1,4 @@
-package org.insanedevelopment.nx.xci.cutter.backend.ui.swt;
+package org.insanedevelopment.nx.xci.cutter.frontend.swt;
 
 import java.math.BigInteger;
 import java.util.concurrent.ExecutorService;
@@ -101,6 +101,10 @@ public class SwtGuiModel {
 
 	public void merge(ProgressBarUpdater progressBarUpdater) {
 		executor.submit(() -> XciFileMerger.mergeSplitFiles(xciFileInformation, targetFile, progressBarUpdater));
+	}
+
+	public void trim(ProgressBarUpdater progressBarUpdater) {
+		executor.submit(() -> XciFileSplitter.trimFile(xciFileInformation, targetFile, progressBarUpdater));
 	}
 
 }

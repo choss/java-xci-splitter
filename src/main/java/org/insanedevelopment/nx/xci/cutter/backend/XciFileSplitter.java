@@ -10,10 +10,12 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.ObservableInputStream;
 import org.apache.commons.io.input.PercentageCalculatingInputStreamObserver;
 import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
+import org.insanedevelopment.nx.xci.cutter.frontend.swt.ProgressBarUpdater;
 
 public class XciFileSplitter {
 
 	private static long SPLIT_FILE_SIZE_4GB = 4_294_934_528L;
+	private static long MAX_FILE_SIZE_NO_SPLIT = FileUtils.ONE_PB;
 
 	public static void splitAndTrimFile(XciFileInformation source, String firstTarget, WorkflowStepPercentageObserver calleeObserver) {
 		try {
@@ -78,6 +80,15 @@ public class XciFileSplitter {
 				}
 			}
 			return true;
+		}
+	}
+
+	public static void trimFile(XciFileInformation source, String targetFile, ProgressBarUpdater calleeObserver) {
+		try {
+			splitAndTrimFile(source, targetFile, MAX_FILE_SIZE_NO_SPLIT, calleeObserver);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 }

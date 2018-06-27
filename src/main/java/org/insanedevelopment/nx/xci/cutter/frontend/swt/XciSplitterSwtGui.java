@@ -1,4 +1,4 @@
-package org.insanedevelopment.nx.xci.cutter.backend.ui.swt;
+package org.insanedevelopment.nx.xci.cutter.frontend.swt;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -154,7 +154,12 @@ public class XciSplitterSwtGui {
 		parts.setBounds(216, 185, 76, 21);
 
 		btnTrim = new Button(shlXciSplitter, SWT.NONE);
-		btnTrim.setEnabled(false);
+		btnTrim.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				model.trim(new ProgressBarUpdater(lblWorkflowStep, progressBarWorkflowProgress, btnSplitAndTrim, btnMerge));
+			}
+		});
 		btnTrim.setBounds(329, 151, 76, 79);
 		btnTrim.setText("Trim");
 
@@ -178,6 +183,7 @@ public class XciSplitterSwtGui {
 		mntmFile.setMenu(menu_1);
 
 		mntmBatchProcessing = new MenuItem(menu_1, SWT.NONE);
+		mntmBatchProcessing.setEnabled(false);
 		mntmBatchProcessing.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
