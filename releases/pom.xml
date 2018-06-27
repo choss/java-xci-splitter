@@ -3,12 +3,12 @@
  
   <groupId>org.insanedevelopment.nx.xci</groupId>
   <artifactId>xci-splitter-releases-parent</artifactId>
-  <version>1.2.0-SNAPSHOT</version>
+  <version>1.2.0</version>
   <packaging>pom</packaging>
     <parent>
         <groupId>org.insanedevelopment.nx.xci</groupId>
         <artifactId>xci-splitter-parent</artifactId>
-        <version>1.2.0-SNAPSHOT</version>
+        <version>1.2.0</version>
     </parent>
   <modules>
     <module>win64</module>
