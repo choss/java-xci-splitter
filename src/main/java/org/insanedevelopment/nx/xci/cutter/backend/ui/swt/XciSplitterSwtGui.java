@@ -178,7 +178,11 @@ public class XciSplitterSwtGui {
 		mntmFile.setMenu(menu_1);
 
 		mntmBatchProcessing = new MenuItem(menu_1, SWT.NONE);
-		mntmBatchProcessing.setEnabled(false);
+		mntmBatchProcessing.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
 		mntmBatchProcessing.setText("Batch processing...");
 
 		mntmExit = new MenuItem(menu_1, SWT.NONE);
@@ -205,7 +209,6 @@ public class XciSplitterSwtGui {
 		
 		lblWorkflowStep = new Label(shlXciSplitter, SWT.NONE);
 		lblWorkflowStep.setBounds(10, 266, 587, 15);
-		lblWorkflowStep.setText("-");
 	}
 
 	private void updateInformationFields() {

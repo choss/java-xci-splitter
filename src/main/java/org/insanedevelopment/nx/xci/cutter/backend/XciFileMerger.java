@@ -12,6 +12,8 @@ import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
 
 public class XciFileMerger {
 
+	private static final int PADDING_PROGESS_UPDATE_CHUNK = 200;
+
 	public static void mergeSplitFiles(XciFileInformation source, String target, WorkflowStepPercentageObserver calleeObserver) {
 		try {
 			mergeAndSplitFilesInternal(source, target, calleeObserver);
@@ -39,9 +41,18 @@ public class XciFileMerger {
 			}
 
 			calleeObserver.setWorkflowStep(WorkflowStep.PADDING);
+			long amountOfPadding = source.getCartSizeInBytes() - source.getDataSizeInBytes();
+			calleeObserver.updatePercentage(0, 0, amountOfPadding);
+			long bytesPadded = 0;
+			final long updateProgessThreshold = (amountOfPadding / PADDING_PROGESS_UPDATE_CHUNK) + 1; // adding 1 so result is never 0
 			for (long i = source.getDataSizeInBytes(); i < source.getCartSizeInBytes(); i++) {
 				outputStream.write(0xFF);
+				bytesPadded++;
+				if (bytesPadded % updateProgessThreshold == 0) {
+					calleeObserver.updatePercentage((double) bytesPadded / (double) amountOfPadding * 100.0d, bytesPadded, amountOfPadding);
+				}
 			}
+			calleeObserver.updatePercentage(100d, bytesPadded, amountOfPadding);
 		}
 		calleeObserver.setWorkflowStep(WorkflowStep.DONE);
 	}
