@@ -35,6 +35,8 @@ public class XciSplitterSwtGui {
 	private ProgressBar progressBarWorkflowProgress;
 	private Button btnMerge;
 
+	private BatchModeDialog batchModeDialog = new BatchModeDialog();
+
 	/**
 	 * Launch the application.
 	 * 
@@ -68,7 +70,7 @@ public class XciSplitterSwtGui {
 	 * Create contents of the window.
 	 */
 	protected void createContents() {
-		shlXciSplitter = new Shell();
+		shlXciSplitter = new Shell(SWT.SHELL_TRIM & (~SWT.RESIZE));
 		shlXciSplitter.setSize(625, 401);
 		shlXciSplitter.setText("Xci Splitter");
 
@@ -183,10 +185,11 @@ public class XciSplitterSwtGui {
 		mntmFile.setMenu(menu_1);
 
 		mntmBatchProcessing = new MenuItem(menu_1, SWT.NONE);
-		mntmBatchProcessing.setEnabled(false);
 		mntmBatchProcessing.addSelectionListener(new SelectionAdapter() {
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				batchModeDialog.open();
 			}
 		});
 		mntmBatchProcessing.setText("Batch processing...");
@@ -212,7 +215,7 @@ public class XciSplitterSwtGui {
 
 		progressBarWorkflowProgress = new ProgressBar(shlXciSplitter, SWT.NONE);
 		progressBarWorkflowProgress.setBounds(10, 287, 587, 17);
-		
+
 		lblWorkflowStep = new Label(shlXciSplitter, SWT.NONE);
 		lblWorkflowStep.setBounds(10, 266, 587, 15);
 	}
