@@ -3,12 +3,12 @@
 
 	<groupId>org.insanedevelopment.nx.xci</groupId>
 	<artifactId>xci-splitter</artifactId>
-	<version>1.2.0</version>
+	<version>1.2.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
     <parent>
         <groupId>org.insanedevelopment.nx.xci</groupId>
         <artifactId>xci-splitter-parent</artifactId>
-        <version>1.2.0</version>
+        <version>1.2.1-SNAPSHOT</version>
     </parent>
 
 	<name>xci-splitter</name>
