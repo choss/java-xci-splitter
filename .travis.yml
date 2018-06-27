@@ -6,7 +6,10 @@ deploy:
   provider: releases
   api_key:
     secure: $GITHUB_TOKEN
-  file: "./target/xci-splitter-*-win64.jar"
+  file: 
+    - "./releases/win64/target/xci-splitter-*.jar"
+    - "./releases/linux64/target/xci-splitter-*.jar"
+    - "./releases/osx/target/xci-splitter-*.jar"
   file_glob: true
   skip_cleanup: true
   on:
