@@ -29,3 +29,5 @@ hs_err_pid*
 **/.classpath
 **/.project
 **/.settings/
+pom.xml.versionsBackup
+**/pom.xml.versionsBackup
