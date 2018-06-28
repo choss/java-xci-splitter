@@ -9,7 +9,7 @@ deploy:
   file: 
     - "./releases/win64/target/xci-splitter-*.jar"
     - "./releases/linux64/target/xci-splitter-*.jar"
-    - "./releases/osx/target/xci-splitter-*.jar"
+    - "./releases/osx/target/xci-splitter-*-capsule.jar"
   file_glob: true
   skip_cleanup: true
   on:

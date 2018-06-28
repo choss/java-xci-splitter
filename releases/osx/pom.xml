@@ -37,6 +37,29 @@
 	</dependencies>
 	<build>
 		<plugins>
+		<plugin>
+			<groupId>com.github.chrisdchristo</groupId>
+			<artifactId>capsule-maven-plugin</artifactId>
+			<version>1.5.1</version>
+			<executions>
+				<execution>
+					<goals>
+						<goal>build</goal>
+					</goals>
+					<configuration>
+						<appClass>org.insanedevelopment.nx.xci.cutter.frontend.swt.XciSplitterSwtGui</appClass>
+						<type>fat</type>
+						<manifest>
+						<entry>
+							<key>JVM-Args</key>
+							<value>-d64 -XstartOnFirstThread</value>
+						</entry>
+					</manifest>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+		<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -61,6 +84,23 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>sh.tak.appbundler</groupId>
+				<artifactId>appbundle-maven-plugin</artifactId>
+				<version>1.2.0</version>
+				<configuration>
+					<mainClass>your.app.MainClass</mainClass>
+				</configuration>
+				<executions>
+					<execution>
+					<phase>package</phase>
+					<goals>
+						<goal>bundle</goal>
+					</goals>
+					</execution>
+				</executions>
+			</plugin>
+			-->
 		</plugins>
 	</build>
 </project>
