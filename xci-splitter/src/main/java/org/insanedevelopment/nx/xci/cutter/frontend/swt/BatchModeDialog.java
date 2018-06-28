@@ -30,6 +30,9 @@ public class BatchModeDialog {
 	private Button btnMerge;
 	private Button btnTrim;
 	private Button checkDeleteFilesAfter;
+	private Label lblFileStatus;
+	private ProgressBar progressBarFiles;
+	private Label lblFileName;
 
 	/**
 	 * Launch the application.
@@ -117,10 +120,10 @@ public class BatchModeDialog {
 		lblSingleFileStatus = new Label(shlBatchOperations, SWT.NONE);
 		lblSingleFileStatus.setBounds(10, 588, 556, 15);
 
-		ProgressBar progressBarFiles = new ProgressBar(shlBatchOperations, SWT.NONE);
+		progressBarFiles = new ProgressBar(shlBatchOperations, SWT.NONE);
 		progressBarFiles.setBounds(10, 565, 556, 17);
 
-		Label lblFileName = new Label(shlBatchOperations, SWT.NONE);
+		lblFileName = new Label(shlBatchOperations, SWT.NONE);
 		lblFileName.setBounds(10, 544, 556, 15);
 
 		btnTrim = new Button(shlBatchOperations, SWT.NONE);
@@ -160,7 +163,7 @@ public class BatchModeDialog {
 		checkDeleteFilesAfter.setBounds(344, 481, 85, 16);
 		checkDeleteFilesAfter.setText("delete files");
 
-		Label lblFileStatus = new Label(shlBatchOperations, SWT.NONE);
+		lblFileStatus = new Label(shlBatchOperations, SWT.NONE);
 		lblFileStatus.setBounds(10, 523, 556, 15);
 
 	}
@@ -170,7 +173,6 @@ public class BatchModeDialog {
 	}
 
 	private BatchProgressUpdater createBatchProgressUpdater() {
-		// TODO Auto-generated method stub
-		return null;
+      return new BatchProgressBarUpdater(lblFileStatus, lblFileName, progressBarFiles);
 	}
 }
