@@ -3,6 +3,7 @@ package org.insanedevelopment.nx.xci.cutter.backend.batch;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,12 +11,16 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
 
 public class BatchHelper {
 
 	public static List<String> getAllXciImageFilesRecursively(String baseDir) {
+		if (StringUtils.trimToNull(baseDir) == null) {
+			return Collections.emptyList();
+		}
 		Collection<File> files = FileUtils.listFiles(new File(baseDir), new SuffixFileFilter(Arrays.asList(".xci", ".xc0")), TrueFileFilter.INSTANCE);
 		List<String> result = files.stream().map(f -> f.getAbsolutePath()).collect(Collectors.toList());
 		return result;

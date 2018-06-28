@@ -91,7 +91,6 @@ public class BatchModeDialog {
 				for (String file : files) {
 					listBatchItems.add(file);
 				}
-				listBatchItems.add(files.toString());
 			}
 		});
 		btnSelectFolder.setBounds(10, 461, 75, 25);
