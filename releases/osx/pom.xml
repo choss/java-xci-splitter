@@ -3,12 +3,12 @@
 
 	<groupId>org.insanedevelopment.nx.xci</groupId>
 	<artifactId>xci-splitter-osx</artifactId>
-	<version>1.2.1</version>
+	<version>1.2.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
     <parent>
         <groupId>org.insanedevelopment.nx.xci</groupId>
         <artifactId>xci-splitter-releases-parent</artifactId>
-        <version>1.2.1</version>
+        <version>1.2.2-SNAPSHOT</version>
     </parent>
 
 	<properties>
@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>org.insanedevelopment.nx.xci</groupId>
 			<artifactId>xci-splitter</artifactId>
-			<version>1.2.1</version>
+			<version>1.2.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.platform</groupId>
