@@ -1,4 +1,4 @@
-package org.insanedevelopment.nx.xci.cutter.frontend.swt;
+package org.insanedevelopment.nx.xci.cutter.frontend;
 
 import java.math.BigInteger;
 import java.util.concurrent.ExecutorService;
@@ -8,11 +8,12 @@ import java.util.concurrent.ThreadFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.insanedevelopment.nx.xci.cutter.backend.WorkflowStepPercentageObserver;
 import org.insanedevelopment.nx.xci.cutter.backend.XciFileMerger;
 import org.insanedevelopment.nx.xci.cutter.backend.XciFileSplitter;
 import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
 
-public class SwtGuiModel {
+public class GuiModel {
 
 	private ExecutorService executor = Executors.newFixedThreadPool(1,  new ThreadFactory() {
         public Thread newThread(Runnable r) {
@@ -26,7 +27,7 @@ public class SwtGuiModel {
 	private String sourceFile;
 	private String targetFile;
 
-	public SwtGuiModel() {
+	public GuiModel() {
 		super();
 	}
 
@@ -95,15 +96,15 @@ public class SwtGuiModel {
 		return result;
 	}
 
-	public void splitAndTrim(ProgressBarUpdater progressBarUpdater) {
+	public void splitAndTrim(WorkflowStepPercentageObserver progressBarUpdater) {
 		executor.submit(() -> XciFileSplitter.splitAndTrimFile(xciFileInformation, targetFile, progressBarUpdater));
 	}
 
-	public void merge(ProgressBarUpdater progressBarUpdater) {
+	public void merge(WorkflowStepPercentageObserver progressBarUpdater) {
 		executor.submit(() -> XciFileMerger.mergeSplitFiles(xciFileInformation, targetFile, progressBarUpdater));
 	}
 
-	public void trim(ProgressBarUpdater progressBarUpdater) {
+	public void trim(WorkflowStepPercentageObserver progressBarUpdater) {
 		executor.submit(() -> XciFileSplitter.trimFile(xciFileInformation, targetFile, progressBarUpdater));
 	}
 

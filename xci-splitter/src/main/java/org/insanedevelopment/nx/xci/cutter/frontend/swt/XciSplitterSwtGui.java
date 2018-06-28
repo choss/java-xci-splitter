@@ -12,12 +12,13 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.insanedevelopment.nx.xci.cutter.frontend.GuiModel;
 
 public class XciSplitterSwtGui {
 
 	protected Shell shlXciSplitter;
 	private Text inputFile;
-	private SwtGuiModel model = new SwtGuiModel();
+	private GuiModel model = new GuiModel();
 	private Text cartSize;
 	private Text dataSize;
 	private Text targetFile;
@@ -71,7 +72,7 @@ public class XciSplitterSwtGui {
 	 */
 	protected void createContents() {
 		shlXciSplitter = new Shell(SWT.SHELL_TRIM & (~SWT.RESIZE));
-		shlXciSplitter.setSize(625, 401);
+		shlXciSplitter.setSize(615, 401);
 		shlXciSplitter.setText("Xci Splitter");
 
 		Button btnSelectSource = new Button(shlXciSplitter, SWT.NONE);
@@ -188,7 +189,6 @@ public class XciSplitterSwtGui {
 		mntmFile.setMenu(menu_1);
 
 		mntmBatchProcessing = new MenuItem(menu_1, SWT.NONE);
-		mntmBatchProcessing.setEnabled(false);
 		mntmBatchProcessing.addSelectionListener(new SelectionAdapter() {
 
 			@Override

@@ -10,7 +10,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.ObservableInputStream;
 import org.apache.commons.io.input.PercentageCalculatingInputStreamObserver;
 import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
-import org.insanedevelopment.nx.xci.cutter.frontend.swt.ProgressBarUpdater;
 
 public class XciFileSplitter {
 
@@ -47,7 +46,7 @@ public class XciFileSplitter {
 			long lastCopyCount = 0;
 			long amountToCopy = Math.min(remainingDataSize, chunkSize);
 			do {
-				File targetFile = new File(baseOutputFileName + ".xc" + counter);
+				File targetFile = createOutputFileName(baseOutputFileName, counter, source.getDataSizeInBytes(), chunkSize);
 				FileUtils.forceMkdirParent(targetFile);
 				try (OutputStream outputStream = FileUtils.openOutputStream(targetFile)) {
 					lastCopyCount = IOUtils.copyLarge(inputStream, outputStream, 0, amountToCopy);
@@ -57,9 +56,16 @@ public class XciFileSplitter {
 				counter++;
 				amountToCopy = Math.min(remainingDataSize, chunkSize);
 			} while (lastCopyCount == chunkSize);
-
 		}
 		calleeObserver.setWorkflowStep(WorkflowStep.DONE);
+	}
+
+	private static File createOutputFileName(String baseOutputFileName, int counter, long dataSizeInBytes, long chunkSize) {
+		if (counter == 0 && dataSizeInBytes <= chunkSize) {
+			return new File(baseOutputFileName + ".xci");
+		} else {
+			return new File(baseOutputFileName + ".xc" + counter);
+		}
 	}
 
 	private static boolean checkPadding(XciFileInformation source, WorkflowStepPercentageObserver calleeObserver) throws IOException {
@@ -83,7 +89,7 @@ public class XciFileSplitter {
 		}
 	}
 
-	public static void trimFile(XciFileInformation source, String targetFile, ProgressBarUpdater calleeObserver) {
+	public static void trimFile(XciFileInformation source, String targetFile, WorkflowStepPercentageObserver calleeObserver) {
 		try {
 			splitAndTrimFile(source, targetFile, MAX_FILE_SIZE_NO_SPLIT, calleeObserver);
 		} catch (IOException e) {
