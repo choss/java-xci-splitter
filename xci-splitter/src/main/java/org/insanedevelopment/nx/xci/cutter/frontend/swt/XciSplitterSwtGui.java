@@ -12,13 +12,13 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.insanedevelopment.nx.xci.cutter.frontend.GuiModel;
+import org.insanedevelopment.nx.xci.cutter.frontend.GuiModelSingleFile;
 
 public class XciSplitterSwtGui {
 
 	protected Shell shlXciSplitter;
 	private Text inputFile;
-	private GuiModel model = new GuiModel();
+	private GuiModelSingleFile model = new GuiModelSingleFile();
 	private Text cartSize;
 	private Text dataSize;
 	private Text targetFile;
@@ -162,7 +162,7 @@ public class XciSplitterSwtGui {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				model.setTargetFile(targetFile.getText());
-				model.trim(new ProgressBarUpdater(lblWorkflowStep, progressBarWorkflowProgress, btnSplitAndTrim, btnMerge, btnTrim));
+				model.trim(createProgressBarUpdater());
 			}
 		});
 		btnTrim.setBounds(329, 151, 76, 79);
@@ -173,7 +173,7 @@ public class XciSplitterSwtGui {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				model.setTargetFile(targetFile.getText());
-				model.splitAndTrim(new ProgressBarUpdater(lblWorkflowStep, progressBarWorkflowProgress, btnSplitAndTrim, btnMerge, btnTrim));
+				model.splitAndTrim(createProgressBarUpdater());
 			}
 		});
 		btnSplitAndTrim.setBounds(411, 151, 75, 79);
@@ -212,7 +212,7 @@ public class XciSplitterSwtGui {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				model.setTargetFile(targetFile.getText());
-				model.merge(new ProgressBarUpdater(lblWorkflowStep, progressBarWorkflowProgress, btnSplitAndTrim, btnMerge, btnTrim));
+				model.merge(createProgressBarUpdater());
 			}
 		});
 		btnMerge.setBounds(492, 151, 75, 79);
@@ -231,5 +231,9 @@ public class XciSplitterSwtGui {
 		xciSize.setText(model.getFullFileSizeString());
 		isSplit.setText(model.getIsSplitString());
 		parts.setText(model.getAmountOfPartsString());
+	}
+
+	private ProgressBarUpdater createProgressBarUpdater() {
+		return new ProgressBarUpdater(lblWorkflowStep, progressBarWorkflowProgress, btnSplitAndTrim, btnMerge, btnTrim);
 	}
 }

@@ -13,7 +13,7 @@ import org.insanedevelopment.nx.xci.cutter.backend.XciFileMerger;
 import org.insanedevelopment.nx.xci.cutter.backend.XciFileSplitter;
 import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
 
-public class GuiModel {
+public class GuiModelSingleFile {
 
 	private ExecutorService executor = Executors.newFixedThreadPool(1,  new ThreadFactory() {
         public Thread newThread(Runnable r) {
@@ -27,7 +27,7 @@ public class GuiModel {
 	private String sourceFile;
 	private String targetFile;
 
-	public GuiModel() {
+	public GuiModelSingleFile() {
 		super();
 	}
 

@@ -10,6 +10,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.apache.commons.lang3.tuple.Pair;
 import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
 
 public class BatchHelper {
@@ -33,6 +34,12 @@ public class BatchHelper {
 		}
 		result = result + extension;
 		return result;
+	}
+
+	public static Pair<XciFileInformation, String> generateInformationForSourceFile(String sourceFile, boolean isTrim) {
+		XciFileInformation xciFileInformation = new XciFileInformation(sourceFile);
+		String outputFileName = getOutputFileName(xciFileInformation, isTrim);
+		return Pair.of(xciFileInformation, outputFileName);
 	}
 
 }

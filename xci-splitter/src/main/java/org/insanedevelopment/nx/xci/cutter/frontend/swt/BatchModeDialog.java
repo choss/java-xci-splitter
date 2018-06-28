@@ -12,6 +12,8 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.insanedevelopment.nx.xci.cutter.backend.batch.BatchHelper;
+import org.insanedevelopment.nx.xci.cutter.backend.batch.BatchProgressUpdater;
+import org.insanedevelopment.nx.xci.cutter.frontend.GuiModelBatchMode;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Label;
 
@@ -20,6 +22,14 @@ public class BatchModeDialog {
 	protected Shell shlBatchOperations;
 	private List listBatchItems;
 	private Button btnAddFile;
+
+	private GuiModelBatchMode model = new GuiModelBatchMode();
+	private Label lblSingleFileStatus;
+	private ProgressBar progressBarSingleFile;
+	private Button btnSplitTrim;
+	private Button btnMerge;
+	private Button btnTrim;
+	private Button checkDeleteFilesAfter;
 
 	/**
 	 * Launch the application.
@@ -101,42 +111,67 @@ public class BatchModeDialog {
 		});
 		btnAddFile.setBounds(10, 492, 75, 25);
 		btnAddFile.setText("Add File");
-		
-		ProgressBar progressBarSingleFile = new ProgressBar(shlBatchOperations, SWT.NONE);
+
+		progressBarSingleFile = new ProgressBar(shlBatchOperations, SWT.NONE);
 		progressBarSingleFile.setBounds(10, 609, 556, 17);
-		
-		Label lblSingleFileStatus = new Label(shlBatchOperations, SWT.NONE);
+
+		lblSingleFileStatus = new Label(shlBatchOperations, SWT.NONE);
 		lblSingleFileStatus.setBounds(10, 588, 556, 15);
-		
+
 		ProgressBar progressBarFiles = new ProgressBar(shlBatchOperations, SWT.NONE);
 		progressBarFiles.setBounds(10, 565, 556, 17);
-		
-		Label lblFileStatus = new Label(shlBatchOperations, SWT.NONE);
-		lblFileStatus.setBounds(10, 544, 556, 15);
-		
-		Button btnNewButton = new Button(shlBatchOperations, SWT.NONE);
-		btnNewButton.setBounds(91, 461, 75, 56);
-		btnNewButton.setText("Trim");
-		
-		Button btnSplitTrim = new Button(shlBatchOperations, SWT.NONE);
+
+		Label lblFileName = new Label(shlBatchOperations, SWT.NONE);
+		lblFileName.setBounds(10, 544, 556, 15);
+
+		btnTrim = new Button(shlBatchOperations, SWT.NONE);
+		btnTrim.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				model.setFiles(listBatchItems.getItems());
+				model.trim(createBatchProgressUpdater(), createProgressBarUpdater(), checkDeleteFilesAfter.getSelection());
+			}
+		});
+		btnTrim.setBounds(91, 461, 75, 56);
+		btnTrim.setText("Trim");
+
+		btnSplitTrim = new Button(shlBatchOperations, SWT.NONE);
 		btnSplitTrim.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				model.setFiles(listBatchItems.getItems());
+				model.splitAndTrim(createBatchProgressUpdater(), createProgressBarUpdater(), checkDeleteFilesAfter.getSelection());
 			}
 		});
 		btnSplitTrim.setText("Split &&Trim");
 		btnSplitTrim.setBounds(172, 461, 75, 56);
-		
-		Button btnMerge = new Button(shlBatchOperations, SWT.NONE);
+
+		btnMerge = new Button(shlBatchOperations, SWT.NONE);
+		btnMerge.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				model.setFiles(listBatchItems.getItems());
+				model.merge(createBatchProgressUpdater(), createProgressBarUpdater(), checkDeleteFilesAfter.getSelection());
+			}
+		});
 		btnMerge.setText("Merge");
 		btnMerge.setBounds(253, 461, 75, 56);
-		
-		Button checkDeleteFilesAfter = new Button(shlBatchOperations, SWT.CHECK);
+
+		checkDeleteFilesAfter = new Button(shlBatchOperations, SWT.CHECK);
 		checkDeleteFilesAfter.setBounds(344, 481, 85, 16);
 		checkDeleteFilesAfter.setText("delete files");
-		
-		Label lblFileName = new Label(shlBatchOperations, SWT.NONE);
-		lblFileName.setBounds(10, 523, 556, 15);
 
+		Label lblFileStatus = new Label(shlBatchOperations, SWT.NONE);
+		lblFileStatus.setBounds(10, 523, 556, 15);
+
+	}
+
+	private ProgressBarUpdater createProgressBarUpdater() {
+		return new ProgressBarUpdater(lblSingleFileStatus, progressBarSingleFile, btnSplitTrim, btnMerge, btnTrim);
+	}
+
+	private BatchProgressUpdater createBatchProgressUpdater() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
