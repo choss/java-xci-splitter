@@ -93,6 +93,7 @@ public class XciSplitterSwtGui {
 		btnSelectSource.setText("Source");
 
 		inputFile = new Text(shlXciSplitter, SWT.BORDER);
+		inputFile.setEnabled(false);
 		inputFile.setBounds(91, 50, 506, 21);
 
 		cartSize = new Text(shlXciSplitter, SWT.BORDER);
@@ -159,7 +160,8 @@ public class XciSplitterSwtGui {
 		btnTrim.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				model.trim(new ProgressBarUpdater(lblWorkflowStep, progressBarWorkflowProgress, btnSplitAndTrim, btnMerge));
+				model.setTargetFile(targetFile.getText());
+				model.trim(new ProgressBarUpdater(lblWorkflowStep, progressBarWorkflowProgress, btnSplitAndTrim, btnMerge, btnTrim));
 			}
 		});
 		btnTrim.setBounds(329, 151, 76, 79);
@@ -169,7 +171,8 @@ public class XciSplitterSwtGui {
 		btnSplitAndTrim.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				model.splitAndTrim(new ProgressBarUpdater(lblWorkflowStep, progressBarWorkflowProgress, btnSplitAndTrim, btnMerge));
+				model.setTargetFile(targetFile.getText());
+				model.splitAndTrim(new ProgressBarUpdater(lblWorkflowStep, progressBarWorkflowProgress, btnSplitAndTrim, btnMerge, btnTrim));
 			}
 		});
 		btnSplitAndTrim.setBounds(411, 151, 75, 79);
@@ -185,6 +188,7 @@ public class XciSplitterSwtGui {
 		mntmFile.setMenu(menu_1);
 
 		mntmBatchProcessing = new MenuItem(menu_1, SWT.NONE);
+		mntmBatchProcessing.setEnabled(false);
 		mntmBatchProcessing.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -207,7 +211,8 @@ public class XciSplitterSwtGui {
 		btnMerge.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				model.merge(new ProgressBarUpdater(lblWorkflowStep, progressBarWorkflowProgress, btnSplitAndTrim, btnMerge));
+				model.setTargetFile(targetFile.getText());
+				model.merge(new ProgressBarUpdater(lblWorkflowStep, progressBarWorkflowProgress, btnSplitAndTrim, btnMerge, btnTrim));
 			}
 		});
 		btnMerge.setBounds(492, 151, 75, 79);
