@@ -71,7 +71,8 @@ public class XciSplitterSwtGui {
 	 * Create contents of the window.
 	 */
 	protected void createContents() {
-		shlXciSplitter = new Shell(SWT.SHELL_TRIM & (~SWT.RESIZE));
+//		shlXciSplitter = new Shell(SWT.SHELL_TRIM & (~SWT.RESIZE));
+		shlXciSplitter = new Shell(SWT.SHELL_TRIM);
 		shlXciSplitter.setSize(615, 401);
 		shlXciSplitter.setText("Xci Splitter");
 

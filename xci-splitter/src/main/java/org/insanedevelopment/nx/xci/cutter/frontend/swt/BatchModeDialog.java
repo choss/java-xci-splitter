@@ -67,7 +67,9 @@ public class BatchModeDialog {
 	 * Create contents of the window.
 	 */
 	protected void createContents() {
-		shlBatchOperations = new Shell(SWT.SHELL_TRIM & (~SWT.RESIZE));
+//		shlBatchOperations = new Shell(SWT.SHELL_TRIM & (~SWT.RESIZE));
+		shlBatchOperations = new Shell(SWT.SHELL_TRIM);
+
 		shlBatchOperations.setSize(582, 665);
 		shlBatchOperations.setText("Batch operations");
 		shlBatchOperations.setLayout(null);
