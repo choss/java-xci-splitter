@@ -1,5 +1,7 @@
 package org.insanedevelopment.nx.xci.cutter.frontend.swt;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -123,6 +125,10 @@ public class XciSplitterSwtGui {
 				fileDialog.setFileName(model.getTargetFileNameProposal());
 				String file = fileDialog.open();
 				if (file != null) {
+					if (SystemUtils.IS_OS_MAC_OSX) {
+						String[] fileSplit = file.split(":");
+						file = fileSplit[0] + fileSplit[fileSplit.length -1];
+					}
 					targetFile.setText(file);
 					model.setTargetFile(file);
 				}
