@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.filefilter.IOFileFilter;
+import org.apache.commons.io.filefilter.NameFileFilter;
+import org.apache.commons.io.filefilter.OrFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.lang3.StringUtils;
@@ -22,23 +24,15 @@ public class BatchHelper {
 		if (StringUtils.trimToNull(baseDir) == null) {
 			return Collections.emptyList();
 		}
-		Collection<File> files = FileUtils.listFiles(new File(baseDir), new SuffixFileFilter(Arrays.asList(".xci", ".xc0")), TrueFileFilter.INSTANCE);
+		IOFileFilter fileFilter = new OrFileFilter(new SuffixFileFilter(Arrays.asList(".xci", ".xc0", ".nsp")), new NameFileFilter("00"));
+		Collection<File> files = FileUtils.listFiles(new File(baseDir), fileFilter, TrueFileFilter.INSTANCE);
 		List<String> result = files.stream().map(f -> f.getAbsolutePath()).collect(Collectors.toList());
 		return result;
 	}
 
 	public static String getOutputFileName(SwitchGameFileInformation source, boolean isTrim) {
-		String sourceFile = source.getMainFileName();
-		String result = FilenameUtils.getFullPath(sourceFile) + FilenameUtils.getBaseName(sourceFile);
-		String extension;
-		result = result + "-" + (isTrim ? "cut" : "merge");
-
-		if (isTrim) {
-			extension = ".xc0";
-		} else {
-			extension = ".xci";
-		}
-		result = result + extension;
+		String suffix = "-" + (isTrim ? "cut" : "merge");
+		String result = source.getTargetFileNameProposal(suffix);
 		return result;
 	}
 

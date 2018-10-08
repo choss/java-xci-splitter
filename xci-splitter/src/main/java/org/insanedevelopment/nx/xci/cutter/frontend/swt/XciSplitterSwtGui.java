@@ -81,7 +81,7 @@ public class XciSplitterSwtGui {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				FileDialog fileDialog = new FileDialog(shlXciSplitter, SWT.OPEN);
-				fileDialog.setFilterExtensions(new String[] { "*.xci;*.xc0;*.nsp;0", "*.xci", "*.xc0", "*.nsp", "0"});
+				fileDialog.setFilterExtensions(new String[] { "*.xci;*.xc0;*.nsp;00", "*.xci", "*.xc0", "*.nsp", "00"});
 				String file = fileDialog.open();
 				if (file != null) {
 					inputFile.setText(file);
@@ -119,7 +119,7 @@ public class XciSplitterSwtGui {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog fileDialog = new FileDialog(shlXciSplitter, SWT.SAVE);
-				fileDialog.setFilterExtensions(new String[] { "*.xc0;*.xci;*.nsp", "*.xci", "*.xc0", "*.nsp" });
+				fileDialog.setFilterExtensions(new String[] { "*.xc0;*.xci;*.nsp","*.xci", "*.xc0", "*.nsp" });
 				fileDialog.setFileName(model.getTargetFileNameProposal());
 				String file = fileDialog.open();
 				if (file != null) {

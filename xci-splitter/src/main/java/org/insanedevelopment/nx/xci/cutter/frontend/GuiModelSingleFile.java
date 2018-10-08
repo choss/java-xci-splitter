@@ -89,10 +89,10 @@ public class GuiModelSingleFile {
 	}
 
 	public String getTargetFileNameProposal() {
-		if (StringUtils.trimToNull(sourceFile) == null) {
+		if (StringUtils.trimToNull(sourceFile) == null || gameFileInformation == null) {
 			return null;
 		}
-		String result = FilenameUtils.getFullPath(sourceFile) + FilenameUtils.getBaseName(sourceFile) + "-output" + gameFileInformation.getDefaultExtension();
+		String result = gameFileInformation.getTargetFileNameProposal("-output");
 		return result;
 	}
 
