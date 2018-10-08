@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class NspFileInformation implements SwitchGameFileInformation {
@@ -31,11 +32,11 @@ public class NspFileInformation implements SwitchGameFileInformation {
 		String baseFileName = FilenameUtils.getFullPath(mainFileName);
 		int counter = 1;
 
-		String nextFileName = baseFileName + "/" + counter;
+		String nextFileName = baseFileName + "/" + StringUtils.leftPad(Integer.toString(counter), 2, '0');
 		while (getFileSize(nextFileName) != -1) {
 			physicalFileSizes.add(Pair.of(nextFileName, getFileSize(nextFileName)));
 			counter++;
-			nextFileName = baseFileName + "/" + counter;
+			nextFileName = baseFileName + "/" + StringUtils.leftPad(Integer.toString(counter), 2, '0');
 		}
 	}
 
@@ -81,7 +82,7 @@ public class NspFileInformation implements SwitchGameFileInformation {
 
 	@Override
 	public long getCartSizeInBytes() {
-		return 0;
+		return getFullFileSizeInBytes();
 	}
 
 	@Override
@@ -94,13 +95,19 @@ public class NspFileInformation implements SwitchGameFileInformation {
 		if (counter == 0 && this.getDataSizeInBytes() <= chunkSize) {
 			return new File(baseOutputFileName + ".nsp");
 		} else {
-			return new File(baseOutputFileName + ".nsp/" + counter);
+			return new File(baseOutputFileName + ".nsp/" + StringUtils.leftPad(Integer.toString(counter), 2, '0'));
 		}
 	}
 
 	@Override
-	public String getDefaultExtension() {
-		return ".nsp";
+	public String getTargetFileNameProposal(String suffix) {
+		String sourceFile = getMainFileName();
+		if (!isSplit()) {
+			return FilenameUtils.getFullPath(sourceFile) + FilenameUtils.getBaseName(sourceFile) + suffix + ".nsp";
+		} else {
+			sourceFile = StringUtils.removeEnd(FilenameUtils.getFullPath(sourceFile), "\\");
+			return FilenameUtils.getFullPath(sourceFile) + FilenameUtils.getBaseName(sourceFile) + suffix + ".nsp";
+		}
 	}
 
 }

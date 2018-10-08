@@ -56,6 +56,6 @@ public interface SwitchGameFileInformation {
 
 	public File createOutputFile(String baseOutputFileName, int counter, long chunkSize);
 
-	public String getDefaultExtension();
+	public String getTargetFileNameProposal(String suffix);
 
 }

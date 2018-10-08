@@ -108,8 +108,10 @@ public class XciFileInformation implements SwitchGameFileInformation {
 	}
 
 	@Override
-	public String getDefaultExtension() {
-		return getDataSizeInBytes() > SPLIT_FILE_SIZE ? ".xc0" : ".xci";
+	public String getTargetFileNameProposal(String suffix) {
+		String sourceFile = getMainFileName();
+		String defaultExtension = getDataSizeInBytes() > SPLIT_FILE_SIZE && !isSplit() ? ".xc0" : ".xci";
+		return FilenameUtils.getFullPath(sourceFile) + FilenameUtils.getBaseName(sourceFile) + suffix + defaultExtension;
 	}
 
 }

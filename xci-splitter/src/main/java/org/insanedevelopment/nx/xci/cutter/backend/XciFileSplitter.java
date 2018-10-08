@@ -26,7 +26,7 @@ public class XciFileSplitter {
 
 	private static void splitAndTrimFile(SwitchGameFileInformation source, String firstTarget, long chunkSize, WorkflowStepPercentageObserver calleeObserver)
 			throws IOException {
-		if (source.isSplit() || source.getDataSizeInBytes() == 0) {
+		if (source.isSplit() || source.getCartSizeInBytes() == 0) {
 			return;
 		}
 

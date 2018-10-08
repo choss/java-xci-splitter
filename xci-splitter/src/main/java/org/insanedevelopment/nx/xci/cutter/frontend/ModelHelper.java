@@ -7,7 +7,7 @@ import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
 public class ModelHelper {
 
 	public static SwitchGameFileInformation getFileInformation(String sourceFile) {
-		if (sourceFile.endsWith("nsp") || sourceFile.endsWith("0")) {
+		if (sourceFile.endsWith("nsp") || sourceFile.endsWith("\\00")) {
 			return new NspFileInformation(sourceFile);
 		}
 		return new XciFileInformation(sourceFile);
