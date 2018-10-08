@@ -9,25 +9,24 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.ObservableInputStream;
 import org.apache.commons.io.input.PercentageCalculatingInputStreamObserver;
-import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
+import org.insanedevelopment.nx.xci.cutter.backend.model.SwitchGameFileInformation;
 
 public class XciFileSplitter {
 
-	private static long SPLIT_FILE_SIZE_4GB = 4_294_934_528L;
 	private static long MAX_FILE_SIZE_NO_SPLIT = FileUtils.ONE_PB;
 
-	public static void splitAndTrimFile(XciFileInformation source, String firstTarget, WorkflowStepPercentageObserver calleeObserver) {
+	public static void splitAndTrimFile(SwitchGameFileInformation source, String firstTarget, WorkflowStepPercentageObserver calleeObserver) {
 		try {
-			splitAndTrimFile(source, firstTarget, SPLIT_FILE_SIZE_4GB, calleeObserver);
+			splitAndTrimFile(source, firstTarget, source.getSplitSize(), calleeObserver);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
 
-	private static void splitAndTrimFile(XciFileInformation source, String firstTarget, long chunkSize, WorkflowStepPercentageObserver calleeObserver)
+	private static void splitAndTrimFile(SwitchGameFileInformation source, String firstTarget, long chunkSize, WorkflowStepPercentageObserver calleeObserver)
 			throws IOException {
-		if (source.isSplit() || source.getCartSizeInBytes() == 0) {
+		if (source.isSplit() || source.getDataSizeInBytes() == 0) {
 			return;
 		}
 
@@ -46,7 +45,7 @@ public class XciFileSplitter {
 			long lastCopyCount = 0;
 			long amountToCopy = Math.min(remainingDataSize, chunkSize);
 			do {
-				File targetFile = createOutputFileName(baseOutputFileName, counter, source.getDataSizeInBytes(), chunkSize);
+				File targetFile = source.createOutputFile(baseOutputFileName, counter, chunkSize);
 				FileUtils.forceMkdirParent(targetFile);
 				try (OutputStream outputStream = FileUtils.openOutputStream(targetFile)) {
 					lastCopyCount = IOUtils.copyLarge(inputStream, outputStream, 0, amountToCopy);
@@ -60,15 +59,7 @@ public class XciFileSplitter {
 		calleeObserver.setWorkflowStep(WorkflowStep.DONE);
 	}
 
-	private static File createOutputFileName(String baseOutputFileName, int counter, long dataSizeInBytes, long chunkSize) {
-		if (counter == 0 && dataSizeInBytes <= chunkSize) {
-			return new File(baseOutputFileName + ".xci");
-		} else {
-			return new File(baseOutputFileName + ".xc" + counter);
-		}
-	}
-
-	private static boolean checkPadding(XciFileInformation source, WorkflowStepPercentageObserver calleeObserver) throws IOException {
+	private static boolean checkPadding(SwitchGameFileInformation source, WorkflowStepPercentageObserver calleeObserver) throws IOException {
 		calleeObserver.setWorkflowStep(WorkflowStep.CHECK_PADDING);
 		PercentageCalculatingInputStreamObserver observer = new PercentageCalculatingInputStreamObserver(
 				source.getCartSizeInBytes() - source.getDataSizeInBytes(), calleeObserver);
@@ -89,7 +80,7 @@ public class XciFileSplitter {
 		}
 	}
 
-	public static void trimFile(XciFileInformation source, String targetFile, WorkflowStepPercentageObserver calleeObserver) {
+	public static void trimFile(SwitchGameFileInformation source, String targetFile, WorkflowStepPercentageObserver calleeObserver) {
 		try {
 			splitAndTrimFile(source, targetFile, MAX_FILE_SIZE_NO_SPLIT, calleeObserver);
 		} catch (IOException e) {

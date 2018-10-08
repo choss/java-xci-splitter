@@ -8,13 +8,13 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.ObservableInputStream;
 import org.apache.commons.io.input.PercentageCalculatingInputStreamObserver;
-import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
+import org.insanedevelopment.nx.xci.cutter.backend.model.SwitchGameFileInformation;
 
 public class XciFileMerger {
 
 	private static final int PADDING_PROGESS_UPDATE_CHUNK = 200;
 
-	public static void mergeSplitFiles(XciFileInformation source, String target, WorkflowStepPercentageObserver calleeObserver) {
+	public static void mergeSplitFiles(SwitchGameFileInformation source, String target, WorkflowStepPercentageObserver calleeObserver) {
 		try {
 			mergeSplitFilesInternal(source, target, calleeObserver);
 		} catch (IOException e) {
@@ -23,7 +23,7 @@ public class XciFileMerger {
 		}
 	}
 
-	private static void mergeSplitFilesInternal(XciFileInformation source, String target, WorkflowStepPercentageObserver calleeObserver) throws IOException {
+	private static void mergeSplitFilesInternal(SwitchGameFileInformation source, String target, WorkflowStepPercentageObserver calleeObserver) throws IOException {
 		if (source.getCartSizeInBytes() == 0) {
 			return;
 		}

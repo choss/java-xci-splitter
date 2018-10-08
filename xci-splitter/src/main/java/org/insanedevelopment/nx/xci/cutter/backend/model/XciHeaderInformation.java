@@ -15,12 +15,12 @@ public class XciHeaderInformation {
 	private BigInteger dataFileSizeInBytes;
 
 	private XciHeaderInformation() {
-		// TODO Auto-generated constructor stub
+		// no public constructor, use static methods instead
 	}
 
 	/**
 	 * Offsets from http://switchbrew.org/index.php?title=Gamecard_Format
-	 * 
+	 *
 	 * @param inputFile
 	 * @return
 	 * @throws IOException

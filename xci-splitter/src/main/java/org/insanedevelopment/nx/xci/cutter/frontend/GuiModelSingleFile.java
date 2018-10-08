@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.insanedevelopment.nx.xci.cutter.backend.WorkflowStepPercentageObserver;
 import org.insanedevelopment.nx.xci.cutter.backend.XciFileMerger;
 import org.insanedevelopment.nx.xci.cutter.backend.XciFileSplitter;
-import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
+import org.insanedevelopment.nx.xci.cutter.backend.model.SwitchGameFileInformation;
 
 public class GuiModelSingleFile {
 
@@ -23,7 +23,7 @@ public class GuiModelSingleFile {
         }
     });
 
-	private XciFileInformation xciFileInformation;
+	private SwitchGameFileInformation gameFileInformation;
 	private String sourceFile;
 	private String targetFile;
 
@@ -32,35 +32,35 @@ public class GuiModelSingleFile {
 	}
 
 	public String getFullFileSizeString() {
-		return byteCountToDisplaySize(xciFileInformation.getFullFileSizeInBytes());
+		return byteCountToDisplaySize(gameFileInformation.getFullFileSizeInBytes());
 	}
 
 	public String getIsSplitString() {
-		if (xciFileInformation == null) {
+		if (gameFileInformation == null) {
 			return "";
 		}
-		return xciFileInformation.isSplit() ? "yes" : "no";
+		return gameFileInformation.isSplit() ? "yes" : "no";
 	}
 
 	public String getAmountOfPartsString() {
-		if (xciFileInformation == null) {
+		if (gameFileInformation == null) {
 			return "";
 		}
-		return Integer.toString(xciFileInformation.getAllFileNames().size());
+		return Integer.toString(gameFileInformation.getAllFileNames().size());
 	}
 
 	public String getDataSizeString() {
-		if (xciFileInformation == null) {
+		if (gameFileInformation == null) {
 			return "";
 		}
-		return byteCountToDisplaySize(xciFileInformation.getDataSizeInBytes());
+		return byteCountToDisplaySize(gameFileInformation.getDataSizeInBytes());
 	}
 
 	public String getCartSizeString() {
-		if (xciFileInformation == null) {
+		if (gameFileInformation == null) {
 			return "";
 		}
-		return byteCountToDisplaySize(xciFileInformation.getCartSizeInBytes());
+		return byteCountToDisplaySize(gameFileInformation.getCartSizeInBytes());
 	}
 
 	private String byteCountToDisplaySize(long cartSizeInBytes) {
@@ -77,7 +77,7 @@ public class GuiModelSingleFile {
 
 	public void setSourceFile(String sourceFile) {
 		this.sourceFile = sourceFile;
-		this.xciFileInformation = new XciFileInformation(sourceFile);
+		this.gameFileInformation = ModelHelper.getFileInformation(sourceFile);
 	}
 
 	public String getTargetFile() {
@@ -92,20 +92,20 @@ public class GuiModelSingleFile {
 		if (StringUtils.trimToNull(sourceFile) == null) {
 			return null;
 		}
-		String result = FilenameUtils.getFullPath(sourceFile) + FilenameUtils.getBaseName(sourceFile) + "-output.xc0";
+		String result = FilenameUtils.getFullPath(sourceFile) + FilenameUtils.getBaseName(sourceFile) + "-output" + gameFileInformation.getDefaultExtension();
 		return result;
 	}
 
 	public void splitAndTrim(WorkflowStepPercentageObserver progressBarUpdater) {
-		executor.submit(() -> XciFileSplitter.splitAndTrimFile(xciFileInformation, targetFile, progressBarUpdater));
+		executor.submit(() -> XciFileSplitter.splitAndTrimFile(gameFileInformation, targetFile, progressBarUpdater));
 	}
 
 	public void merge(WorkflowStepPercentageObserver progressBarUpdater) {
-		executor.submit(() -> XciFileMerger.mergeSplitFiles(xciFileInformation, targetFile, progressBarUpdater));
+		executor.submit(() -> XciFileMerger.mergeSplitFiles(gameFileInformation, targetFile, progressBarUpdater));
 	}
 
 	public void trim(WorkflowStepPercentageObserver progressBarUpdater) {
-		executor.submit(() -> XciFileSplitter.trimFile(xciFileInformation, targetFile, progressBarUpdater));
+		executor.submit(() -> XciFileSplitter.trimFile(gameFileInformation, targetFile, progressBarUpdater));
 	}
 
 }
