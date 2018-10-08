@@ -6,15 +6,14 @@ Java tool to split and trim nintendo switch xci files
 This software is WIP
 
 # Features
- - splitting and trimming of files
- - trimming of files
+ - splitting and trimming of files (XCI and NSP)
+ - trimming of files (XCI)
  - merging of files with padding (also should pad a not split trimmed file)
  - small gui
 
 # Know limitations:
- - no batch mode
  - no cli version
- - not tested on linux and macos, but should work
+ - only sanity tested on linux and macos, but should work
 
 # How to use:
  - have 64 bit java in version 1.8 (or higher) installed (Oracle or OpenJDK)
