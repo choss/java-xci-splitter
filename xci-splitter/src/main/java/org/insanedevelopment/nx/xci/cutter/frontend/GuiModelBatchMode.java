@@ -12,7 +12,7 @@ import org.insanedevelopment.nx.xci.cutter.backend.WorkflowStepPercentageObserve
 import org.insanedevelopment.nx.xci.cutter.backend.batch.BatchHelper;
 import org.insanedevelopment.nx.xci.cutter.backend.batch.BatchProcessor;
 import org.insanedevelopment.nx.xci.cutter.backend.batch.BatchProgressUpdater;
-import org.insanedevelopment.nx.xci.cutter.backend.model.XciFileInformation;
+import org.insanedevelopment.nx.xci.cutter.backend.model.SwitchGameFileInformation;
 
 public class GuiModelBatchMode {
 
@@ -32,22 +32,22 @@ public class GuiModelBatchMode {
 	}
 
 	public void splitAndTrim(BatchProgressUpdater batchProgressUpdater, WorkflowStepPercentageObserver progressBarUpdater , boolean deleteProcessed) {
-		List<Pair<XciFileInformation, String>> files = generateFiles(true);
+		List<Pair<SwitchGameFileInformation, String>> files = generateFiles(true);
 		executor.submit(() -> BatchProcessor.splitAndTrim(files, batchProgressUpdater, progressBarUpdater, deleteProcessed));
 	}
 
 	public void merge(BatchProgressUpdater batchProgressUpdater, WorkflowStepPercentageObserver progressBarUpdater, boolean deleteProcessed) {
-		List<Pair<XciFileInformation, String>> files = generateFiles(false);
+		List<Pair<SwitchGameFileInformation, String>> files = generateFiles(false);
 		executor.submit(() -> BatchProcessor.merge(files, batchProgressUpdater, progressBarUpdater, deleteProcessed));
 	}
 
 	public void trim(BatchProgressUpdater batchProgressUpdater, WorkflowStepPercentageObserver progressBarUpdater, boolean deleteProcessed) {
-		List<Pair<XciFileInformation, String>> files = generateFiles(true);
+		List<Pair<SwitchGameFileInformation, String>> files = generateFiles(true);
 		executor.submit(() -> BatchProcessor.trim(files, batchProgressUpdater, progressBarUpdater, deleteProcessed));
 	}
 
-	private List<Pair<XciFileInformation, String>> generateFiles(boolean isTrim) {
-		List<Pair<XciFileInformation, String>> result = new ArrayList<>(inputFileNames.size());
+	private List<Pair<SwitchGameFileInformation, String>> generateFiles(boolean isTrim) {
+		List<Pair<SwitchGameFileInformation, String>> result = new ArrayList<>(inputFileNames.size());
 		for (String fileName : inputFileNames) {
 			result.add(BatchHelper.generateInformationForSourceFile(fileName, isTrim));
 		}

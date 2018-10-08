@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
-public class XciFileInformation {
+public class XciFileInformation implements SwitchGameFileInformation {
 
+	private static long SPLIT_FILE_SIZE = (4 * FileUtils.ONE_GB) - (32 * FileUtils.ONE_KB);
+
+	// list of (Name, Size) combined with laziness to create a proper object
 	private List<Pair<String, Long>> physicalFileSizes = new ArrayList<>();
 	private XciHeaderInformation headerInformation;
 
@@ -30,6 +34,12 @@ public class XciFileInformation {
 		return -1L;
 	}
 
+	@Override
+	public long getSplitSize() {
+		return SPLIT_FILE_SIZE;
+	}
+
+	@Override
 	public String getMainFileName() {
 		return physicalFileSizes.get(0).getLeft();
 	}
@@ -53,6 +63,7 @@ public class XciFileInformation {
 
 	}
 
+	@Override
 	public long getFullFileSizeInBytes() {
 		long result = 0;
 		for (Pair<String, Long> pair : physicalFileSizes) {
@@ -61,19 +72,31 @@ public class XciFileInformation {
 		return result;
 	}
 
+	@Override
+	public File createOutputFile(String baseOutputFileName, int counter, long chunkSize) {
+		if (counter == 0 && this.getDataSizeInBytes() <= chunkSize) {
+			return new File(baseOutputFileName + ".xci");
+		} else {
+			return new File(baseOutputFileName + ".xc" + counter);
+		}
+	}
 
+	@Override
 	public boolean isSplit() {
 		return physicalFileSizes.size() > 1;
 	}
 
+	@Override
 	public List<String> getAllFileNames() {
 		return physicalFileSizes.stream().map(p -> p.getLeft()).collect(Collectors.toList());
 	}
 
+	@Override
 	public long getDataSizeInBytes() {
 		return headerInformation.getDataFileSizeInBytes().longValue();
 	}
 
+	@Override
 	public long getCartSizeInBytes() {
 		return headerInformation.getGamecardSize().getCartSizeInBytes();
 	}
@@ -82,6 +105,11 @@ public class XciFileInformation {
 	public String toString() {
 		return "XciFileInformation [physicalFileSizes=" + physicalFileSizes + ", headerInformation=" + headerInformation + ", getFullFileSizeInBytes()="
 				+ getFullFileSizeInBytes() + ", isSplit()=" + isSplit() + "]";
+	}
+
+	@Override
+	public String getDefaultExtension() {
+		return getDataSizeInBytes() > SPLIT_FILE_SIZE ? ".xc0" : ".xci";
 	}
 
 }
