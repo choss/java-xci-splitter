@@ -1,6 +1,5 @@
 package org.insanedevelopment.nx.xci.cutter.frontend.swt;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
