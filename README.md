@@ -19,6 +19,6 @@ This software is WIP
  - have 64 bit java in version 1.8 (or higher) installed (Oracle or OpenJDK)
  - double click the correct jar file (Most likely only Windows and Linux)
  - execute on the command line (examples below)
-    - java -jar xci-splitter-win64-1.2.1.jar
-    - java -jar xci-splitter-linux64-1.2.1.jar
-    - java -jar xci-splitter-osx-1.2.1-capsule.jar
+    - java -jar xci-splitter-win64-1.4.0.jar
+    - java -jar xci-splitter-linux64-1.4.0.jar
+    - java -jar xci-splitter-osx-1.4.0-capsule.jar
