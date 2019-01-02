@@ -9,12 +9,11 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
-import org.apache.commons.io.filefilter.NameFileFilter;
-import org.apache.commons.io.filefilter.OrFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.insanedevelopment.nx.xci.cutter.backend.FileExtensionUtils;
 import org.insanedevelopment.nx.xci.cutter.backend.model.SwitchGameFileInformation;
 import org.insanedevelopment.nx.xci.cutter.frontend.ModelHelper;
 
@@ -24,7 +23,7 @@ public class BatchHelper {
 		if (StringUtils.trimToNull(baseDir) == null) {
 			return Collections.emptyList();
 		}
-		IOFileFilter fileFilter = new OrFileFilter(new SuffixFileFilter(Arrays.asList(".xci", ".xc0", ".nsp")), new NameFileFilter("00"));
+		IOFileFilter fileFilter = new SuffixFileFilter(Arrays.asList(FileExtensionUtils.ALL_EXTENSIONS));
 		Collection<File> files = FileUtils.listFiles(new File(baseDir), fileFilter, TrueFileFilter.INSTANCE);
 		List<String> result = files.stream().map(f -> f.getAbsolutePath()).collect(Collectors.toList());
 		return result;

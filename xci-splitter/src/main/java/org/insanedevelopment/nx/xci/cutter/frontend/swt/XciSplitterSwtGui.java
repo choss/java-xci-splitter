@@ -1,5 +1,6 @@
 package org.insanedevelopment.nx.xci.cutter.frontend.swt;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -13,6 +14,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.insanedevelopment.nx.xci.cutter.backend.FileExtensionUtils;
 import org.insanedevelopment.nx.xci.cutter.frontend.GuiModelSingleFile;
 
 public class XciSplitterSwtGui {
@@ -81,7 +83,7 @@ public class XciSplitterSwtGui {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				FileDialog fileDialog = new FileDialog(shlXciSplitter, SWT.OPEN);
-				fileDialog.setFilterExtensions(new String[] { "*.xci;*.xc0;*.nsp;00", "*.xci", "*.xc0", "*.nsp", "00"});
+				fileDialog.setFilterExtensions(FileExtensionUtils.SELECT_FILE_FILTER);
 				String file = fileDialog.open();
 				if (file != null) {
 					inputFile.setText(file);
@@ -119,7 +121,7 @@ public class XciSplitterSwtGui {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog fileDialog = new FileDialog(shlXciSplitter, SWT.SAVE);
-				fileDialog.setFilterExtensions(new String[] { "*.xc0;*.xci;*.nsp","*.xci", "*.xc0", "*.nsp" });
+				fileDialog.setFilterExtensions(FileExtensionUtils.SAVE_FILE_FILTER);
 				fileDialog.setFileName(model.getTargetFileNameProposal());
 				String file = fileDialog.open();
 				if (file != null) {

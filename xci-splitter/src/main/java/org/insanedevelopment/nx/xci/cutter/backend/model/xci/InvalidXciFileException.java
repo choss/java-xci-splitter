@@ -1,4 +1,4 @@
-package org.insanedevelopment.nx.xci.cutter.backend.model;
+package org.insanedevelopment.nx.xci.cutter.backend.model.xci;
 
 public class InvalidXciFileException extends RuntimeException {
 

@@ -6,7 +6,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.insanedevelopment.nx.xci.cutter.backend.WorkflowStepPercentageObserver;
 import org.insanedevelopment.nx.xci.cutter.backend.XciFileMerger;

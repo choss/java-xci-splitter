@@ -1,4 +1,4 @@
-package org.insanedevelopment.nx.xci.cutter.backend.model;
+package org.insanedevelopment.nx.xci.cutter.backend.model.xci;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
