@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.insanedevelopment.nx.xci.cutter.backend.FileExtensionUtils;
 import org.insanedevelopment.nx.xci.cutter.backend.model.SwitchGameFileInformation;
+import org.insanedevelopment.nx.xci.cutter.backend.model.splitmethods.SplitMethodEnum;
 import org.insanedevelopment.nx.xci.cutter.frontend.ModelHelper;
 
 public class BatchHelper {
@@ -35,8 +36,8 @@ public class BatchHelper {
 		return result;
 	}
 
-	public static Pair<SwitchGameFileInformation, String> generateInformationForSourceFile(String sourceFile, boolean isTrim) {
-		SwitchGameFileInformation xciFileInformation = ModelHelper.getFileInformation(sourceFile);
+	public static Pair<SwitchGameFileInformation, String> generateInformationForSourceFile(String sourceFile, boolean isTrim, SplitMethodEnum splitMethod) {
+		SwitchGameFileInformation xciFileInformation = ModelHelper.getFileInformation(sourceFile, splitMethod);
 		String outputFileName = getOutputFileName(xciFileInformation, isTrim);
 		return Pair.of(xciFileInformation, outputFileName);
 	}

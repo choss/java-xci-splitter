@@ -13,6 +13,7 @@ import org.insanedevelopment.nx.xci.cutter.backend.batch.BatchHelper;
 import org.insanedevelopment.nx.xci.cutter.backend.batch.BatchProcessor;
 import org.insanedevelopment.nx.xci.cutter.backend.batch.BatchProgressUpdater;
 import org.insanedevelopment.nx.xci.cutter.backend.model.SwitchGameFileInformation;
+import org.insanedevelopment.nx.xci.cutter.backend.model.splitmethods.SplitMethodEnum;
 
 public class GuiModelBatchMode {
 
@@ -49,7 +50,7 @@ public class GuiModelBatchMode {
 	private List<Pair<SwitchGameFileInformation, String>> generateFiles(boolean isTrim) {
 		List<Pair<SwitchGameFileInformation, String>> result = new ArrayList<>(inputFileNames.size());
 		for (String fileName : inputFileNames) {
-			result.add(BatchHelper.generateInformationForSourceFile(fileName, isTrim));
+			result.add(BatchHelper.generateInformationForSourceFile(fileName, isTrim, SplitMethodEnum.SX));
 		}
 		return result;
 	}

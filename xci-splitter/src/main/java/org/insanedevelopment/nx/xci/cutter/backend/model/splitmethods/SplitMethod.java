@@ -11,4 +11,5 @@ public interface SplitMethod {
 	public String getOutputFileNameSplitting(String baseOutputFileName, int counter);
 
 	public long getSplitSizeRecommendation();
+
 }

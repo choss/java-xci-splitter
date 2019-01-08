@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.insanedevelopment.nx.xci.cutter.backend.model.splitmethods.SplitMethod;
-import org.insanedevelopment.nx.xci.cutter.backend.model.splitmethods.SxSplitMethod;
 
 public abstract class AbstractSwitchGameFileInformation implements SwitchGameFileInformation {
 
@@ -17,8 +16,8 @@ public abstract class AbstractSwitchGameFileInformation implements SwitchGameFil
 
 	private SplitMethod splitMethod;
 
-	public AbstractSwitchGameFileInformation(String firstFileName, String extension) {
-		this.splitMethod = new SxSplitMethod(extension);
+	public AbstractSwitchGameFileInformation(String firstFileName, SplitMethod splitMethod) {
+		this.splitMethod = splitMethod;
 		initializeSizesIncludingSplitFiles(firstFileName);
 	}
 

@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.insanedevelopment.nx.xci.cutter.backend.FileExtensionUtils;
+import org.insanedevelopment.nx.xci.cutter.backend.model.splitmethods.SplitMethodEnum;
 import org.insanedevelopment.nx.xci.cutter.frontend.GuiModelSingleFile;
 
 public class XciSplitterSwtGui {
@@ -74,7 +75,7 @@ public class XciSplitterSwtGui {
 	 */
 	protected void createContents() {
 		shlXciSplitter = new Shell(SWT.SHELL_TRIM);
-		shlXciSplitter.setSize(615, 401);
+		shlXciSplitter.setSize(615, 426);
 		shlXciSplitter.setText("Xci Splitter");
 
 		Button btnSelectSource = new Button(shlXciSplitter, SWT.NONE);
@@ -229,6 +230,44 @@ public class XciSplitterSwtGui {
 
 		lblWorkflowStep = new Label(shlXciSplitter, SWT.NONE);
 		lblWorkflowStep.setBounds(10, 266, 587, 15);
+
+		Button btnSX = new Button(shlXciSplitter, SWT.RADIO);
+		btnSX.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (btnSX.getSelection()) {
+					model.setSplitMethod(SplitMethodEnum.SX);
+				}
+			}
+		});
+		btnSX.setBounds(91, 342, 39, 16);
+		btnSX.setText("SX");
+
+		Button btnNX = new Button(shlXciSplitter, SWT.RADIO);
+		btnNX.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (btnNX.getSelection()) {
+					model.setSplitMethod(SplitMethodEnum.NX);
+				}
+			}
+		});
+		btnNX.setBounds(136, 342, 39, 16);
+		btnNX.setText("NX");
+
+		Label lblSplitMethod = new Label(shlXciSplitter, SWT.NONE);
+		lblSplitMethod.setBounds(10, 342, 75, 15);
+		lblSplitMethod.setText("Split method");
+
+		SplitMethodEnum sm = model.getSplitMethod();
+		switch (sm) {
+		case NX:
+			btnSX.setSelection(false);
+			btnNX.setSelection(true);
+		case SX:
+			btnNX.setSelection(false);
+			btnSX.setSelection(true);
+		}
 	}
 
 	private void updateInformationFields() {

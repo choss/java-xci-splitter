@@ -1,14 +1,14 @@
 package org.insanedevelopment.nx.xci.cutter.backend.model.xci;
 
-import org.apache.commons.io.FileUtils;
 import org.insanedevelopment.nx.xci.cutter.backend.model.AbstractSwitchGameFileInformation;
+import org.insanedevelopment.nx.xci.cutter.backend.model.splitmethods.SplitMethodEnum;
 
 public class XciFileInformation extends AbstractSwitchGameFileInformation {
 
 	private XciHeaderInformation headerInformation;
 
-	public XciFileInformation(String firstFileName) {
-		super(firstFileName, "xci");
+	public XciFileInformation(String firstFileName, SplitMethodEnum splitMethodEnum) {
+		super(firstFileName, splitMethodEnum.buildSplitMethod("xci"));
 		headerInformation = XciHeaderInformation.readFromFile(firstFileName);
 	}
 

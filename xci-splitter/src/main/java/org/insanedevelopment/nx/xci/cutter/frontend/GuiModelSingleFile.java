@@ -11,6 +11,7 @@ import org.insanedevelopment.nx.xci.cutter.backend.WorkflowStepPercentageObserve
 import org.insanedevelopment.nx.xci.cutter.backend.XciFileMerger;
 import org.insanedevelopment.nx.xci.cutter.backend.XciFileSplitter;
 import org.insanedevelopment.nx.xci.cutter.backend.model.SwitchGameFileInformation;
+import org.insanedevelopment.nx.xci.cutter.backend.model.splitmethods.SplitMethodEnum;
 
 public class GuiModelSingleFile {
 
@@ -25,6 +26,9 @@ public class GuiModelSingleFile {
 	private SwitchGameFileInformation gameFileInformation;
 	private String sourceFile;
 	private String targetFile;
+	private SplitMethodEnum splitMethod = SplitMethodEnum.SX;
+
+
 
 	public GuiModelSingleFile() {
 		super();
@@ -76,7 +80,7 @@ public class GuiModelSingleFile {
 
 	public void setSourceFile(String sourceFile) {
 		this.sourceFile = sourceFile;
-		this.gameFileInformation = ModelHelper.getFileInformation(sourceFile);
+		this.gameFileInformation = ModelHelper.getFileInformation(sourceFile, splitMethod);
 	}
 
 	public String getTargetFile() {
@@ -85,6 +89,14 @@ public class GuiModelSingleFile {
 
 	public void setTargetFile(String targetFile) {
 		this.targetFile = targetFile;
+	}
+
+	public void setSplitMethod(SplitMethodEnum splitMethod) {
+		this.splitMethod = splitMethod;
+	}
+
+	public SplitMethodEnum getSplitMethod() {
+		return splitMethod;
 	}
 
 	public String getTargetFileNameProposal() {
