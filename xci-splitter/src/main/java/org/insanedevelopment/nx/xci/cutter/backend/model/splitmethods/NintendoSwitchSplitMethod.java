@@ -5,18 +5,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
-public class TinfoilSplitMethod implements SplitMethod {
+public class NintendoSwitchSplitMethod implements SplitMethod {
+	private static long SPLIT_FILE_SIZE = (4 * FileUtils.ONE_GB) - (64 * FileUtils.ONE_KB);
 
 	private final String fileExtension;
 
-	public TinfoilSplitMethod() {
+	public NintendoSwitchSplitMethod() {
 		this(".nsp");
 	}
 
-	public TinfoilSplitMethod(String extension) {
+	public NintendoSwitchSplitMethod(String extension) {
 		this.fileExtension = StringUtils.prependIfMissing(extension, ".");
 	}
 
@@ -54,6 +56,11 @@ public class TinfoilSplitMethod implements SplitMethod {
 	@Override
 	public String getOutputFileNameSplitting(String baseOutputFileName, int counter) {
 		return baseOutputFileName + fileExtension + "/" + StringUtils.leftPad(Integer.toString(counter), 2, '0');
+	}
+
+	@Override
+	public long getSplitSizeRecommendation() {
+		return SPLIT_FILE_SIZE;
 	}
 
 }

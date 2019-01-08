@@ -23,6 +23,7 @@ public class NspFileInformation extends AbstractSwitchGameFileInformation {
 
 	@Override
 	public long getSplitSize() {
+		// returning own splitsize here, because it works. It is the same as for the tinfoil method
 		return SPLIT_FILE_SIZE;
 	}
 

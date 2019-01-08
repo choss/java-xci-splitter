@@ -4,10 +4,11 @@ import java.util.List;
 
 public interface SplitMethod {
 
-	List<String> getAllSplitFiles(String mainFileName);
+	public List<String> getAllSplitFiles(String mainFileName);
 
-	String getOutputFileNameNoSplitting(String baseOutputFileName);
+	public String getOutputFileNameNoSplitting(String baseOutputFileName);
 
-	String getOutputFileNameSplitting(String baseOutputFileName, int counter);
+	public String getOutputFileNameSplitting(String baseOutputFileName, int counter);
 
+	public long getSplitSizeRecommendation();
 }

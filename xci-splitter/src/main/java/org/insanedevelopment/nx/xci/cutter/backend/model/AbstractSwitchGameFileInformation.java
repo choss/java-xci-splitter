@@ -60,9 +60,14 @@ public abstract class AbstractSwitchGameFileInformation implements SwitchGameFil
 	}
 
 	@Override
+	public long getSplitSize() {
+		return splitMethod.getSplitSizeRecommendation();
+	}
+
+	@Override
 	public String getTargetFileNameProposal(String suffix) {
 		String sourceFile = getMainFileName();
-		boolean isOutputSplitFile = getDataSizeInBytes() > getSplitSize() && !isSplit() ;
+		boolean isOutputSplitFile = getDataSizeInBytes() > getSplitSize() && !isSplit();
 		String baseOutputFileName = FilenameUtils.getFullPath(sourceFile) + FilenameUtils.getBaseName(sourceFile) + suffix;
 		return isOutputSplitFile ? splitMethod.getOutputFileNameSplitting(baseOutputFileName, 0) : splitMethod.getOutputFileNameNoSplitting(baseOutputFileName);
 	}

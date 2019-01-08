@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class SxSplitMethod implements SplitMethod {
+
+	private static long SPLIT_FILE_SIZE = (4 * FileUtils.ONE_GB) - (32 * FileUtils.ONE_KB);
 
 	private final String splitFileExtensionPrefix;
 	private final String firstSplitFileExtension;
@@ -58,6 +61,11 @@ public class SxSplitMethod implements SplitMethod {
 	public String getOutputFileNameNoSplitting(String baseOutputFileName) {
 		return baseOutputFileName + fileExtension;
 
+	}
+
+	@Override
+	public long getSplitSizeRecommendation() {
+		return SPLIT_FILE_SIZE;
 	}
 
 }

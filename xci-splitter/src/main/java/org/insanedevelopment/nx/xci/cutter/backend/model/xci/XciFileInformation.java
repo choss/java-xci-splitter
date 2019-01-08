@@ -5,18 +5,11 @@ import org.insanedevelopment.nx.xci.cutter.backend.model.AbstractSwitchGameFileI
 
 public class XciFileInformation extends AbstractSwitchGameFileInformation {
 
-	private static long SPLIT_FILE_SIZE = (4 * FileUtils.ONE_GB) - (32 * FileUtils.ONE_KB);
-
 	private XciHeaderInformation headerInformation;
 
 	public XciFileInformation(String firstFileName) {
 		super(firstFileName, "xci");
 		headerInformation = XciHeaderInformation.readFromFile(firstFileName);
-	}
-
-	@Override
-	public long getSplitSize() {
-		return SPLIT_FILE_SIZE;
 	}
 
 	@Override
