@@ -65,7 +65,7 @@ public class GuiModelBatchMode {
 			return informationForSourceFile;
 		}
 		
-		String fullFileName = informationForSourceFile.getRight();
+		String fullFileName = informationForSourceFile.getLeft().getTargetFileNameProposal("");
 		String fileName = FilenameUtils.getName(fullFileName);
 		String outputFileName = FilenameUtils.concat(outputDirectory, fileName);
 		return Pair.of(informationForSourceFile.getLeft(), outputFileName);

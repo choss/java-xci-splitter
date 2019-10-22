@@ -30,7 +30,7 @@ public class BatchHelper {
 		return result;
 	}
 
-	public static String getOutputFileName(SwitchGameFileInformation source, boolean isTrim) {
+	private static String getOutputFileName(SwitchGameFileInformation source, boolean isTrim) {
 		String suffix = "-" + (isTrim ? "cut" : "merge");
 		String result = source.getTargetFileNameProposal(suffix);
 		return result;

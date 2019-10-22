@@ -1,7 +1,5 @@
 package org.insanedevelopment.nx.xci.cutter.frontend.swt;
 
-import java.io.File;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -184,8 +182,8 @@ public class BatchModeDialog {
 				outputDirectory.setEnabled(selection);
 			}
 		});
-		btnOutputDirectory.setBounds(10, 540, 237, 16);
-		btnOutputDirectory.setText("custom output directory");
+		btnOutputDirectory.setBounds(10, 540, 549, 16);
+		btnOutputDirectory.setText("custom output directory (files will not have cut/merge applied, existing files will be overwritten)");
 
 		outputDirectory = new Text(shlBatchOperations, SWT.BORDER);
 		outputDirectory.setText("");
