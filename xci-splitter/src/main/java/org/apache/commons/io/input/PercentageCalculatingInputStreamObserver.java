@@ -16,13 +16,13 @@ public class PercentageCalculatingInputStreamObserver extends ObservableInputStr
 	}
 
 	@Override
-	void data(final int pByte) throws IOException {
+	public void data(final int pByte) throws IOException {
 		readSize++;
 		updatePercentage();
 	}
 
 	@Override
-	void data(final byte[] pBuffer, final int pOffset, final int pLength) throws IOException {
+	public void data(final byte[] pBuffer, final int pOffset, final int pLength) throws IOException {
 		readSize += pLength;
 		updatePercentage();
 	}
